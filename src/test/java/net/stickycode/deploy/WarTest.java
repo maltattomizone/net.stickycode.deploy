@@ -16,6 +16,9 @@ import java.io.File;
 
 import org.junit.Test;
 
+import net.stickcode.deploy.tomcat.DeploymentConfiguration;
+import net.stickcode.deploy.tomcat.TomcatDeployer;
+
 public class WarTest {
 
   @Test

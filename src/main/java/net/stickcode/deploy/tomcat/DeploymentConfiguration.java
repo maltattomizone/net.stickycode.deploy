@@ -10,26 +10,46 @@
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the Apache License Version 2.0 for the specific language governing permissions and limitations there under.
  */
-package net.stickycode.deploy;
+package net.stickcode.deploy.tomcat;
 
-@SuppressWarnings("serial")
-public class FailedToStopDeploymentException
-    extends RuntimeException {
+import java.io.File;
 
-  public FailedToStopDeploymentException() {
-    super();
+public class DeploymentConfiguration {
+
+  private File war;
+  private int port = 8080;
+  private String bindAddress = "localhost";
+  private String contextPath = "";
+
+  public File getWar() {
+    return war;
   }
 
-  public FailedToStopDeploymentException(String message, Throwable cause) {
-    super(message, cause);
+  public void setWar(File war) {
+    this.war = war;
   }
 
-  public FailedToStopDeploymentException(String message) {
-    super(message);
+  public int getPort() {
+    return port;
   }
 
-  public FailedToStopDeploymentException(Throwable cause) {
-    super(cause);
+  public void setPort(int port) {
+    this.port = port;
   }
 
+  public String getBindAddress() {
+    return bindAddress;
+  }
+
+  public void setBindAddress(String bindAddress) {
+    this.bindAddress = bindAddress;
+  }
+
+  public String getContextPath() {
+    return contextPath;
+  }
+
+  public void setContextPath(String contextPath) {
+    this.contextPath = contextPath;
+  }
 }

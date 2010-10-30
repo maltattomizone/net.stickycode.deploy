@@ -10,26 +10,25 @@
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the Apache License Version 2.0 for the specific language governing permissions and limitations there under.
  */
-package net.stickycode.deploy;
-
+package net.stickcode.deploy.tomcat;
 
 @SuppressWarnings("serial")
-public class FailedToStartDeploymentException
+public class FailedToStopDeploymentException
     extends RuntimeException {
 
-  public FailedToStartDeploymentException() {
+  public FailedToStopDeploymentException() {
     super();
   }
 
-  public FailedToStartDeploymentException(String message, Throwable cause) {
+  public FailedToStopDeploymentException(String message, Throwable cause) {
     super(message, cause);
   }
 
-  public FailedToStartDeploymentException(String message) {
+  public FailedToStopDeploymentException(String message) {
     super(message);
   }
 
-  public FailedToStartDeploymentException(Throwable cause) {
+  public FailedToStopDeploymentException(Throwable cause) {
     super(cause);
   }
 

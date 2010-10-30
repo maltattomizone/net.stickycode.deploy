@@ -10,46 +10,27 @@
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the Apache License Version 2.0 for the specific language governing permissions and limitations there under.
  */
-package net.stickycode.deploy;
+package net.stickcode.deploy.tomcat;
 
-import java.io.File;
 
-public class DeploymentConfiguration {
+@SuppressWarnings("serial")
+public class FailedToStartDeploymentException
+    extends RuntimeException {
 
-  private File war;
-  private int port = 8080;
-  private String bindAddress = "localhost";
-  private String contextPath = "";
-
-  public File getWar() {
-    return war;
+  public FailedToStartDeploymentException() {
+    super();
   }
 
-  public void setWar(File war) {
-    this.war = war;
+  public FailedToStartDeploymentException(String message, Throwable cause) {
+    super(message, cause);
   }
 
-  public int getPort() {
-    return port;
+  public FailedToStartDeploymentException(String message) {
+    super(message);
   }
 
-  public void setPort(int port) {
-    this.port = port;
+  public FailedToStartDeploymentException(Throwable cause) {
+    super(cause);
   }
 
-  public String getBindAddress() {
-    return bindAddress;
-  }
-
-  public void setBindAddress(String bindAddress) {
-    this.bindAddress = bindAddress;
-  }
-
-  public String getContextPath() {
-    return contextPath;
-  }
-
-  public void setContextPath(String contextPath) {
-    this.contextPath = contextPath;
-  }
 }
