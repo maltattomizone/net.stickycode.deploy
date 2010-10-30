@@ -14,19 +14,42 @@ package net.stickycode.deploy;
 
 import java.io.File;
 
-import org.junit.Test;
+public class DeploymentConfiguration {
 
-public class WarTest {
+  private File war;
+  private int port = 8080;
+  private String bindAddress = "localhost";
+  private String contextPath = "";
 
-  @Test
-  public void war() {
-    DeploymentConfiguration configuration = new DeploymentConfiguration();
-    configuration.setPort(9999);
-    configuration
-        .setWar(new File(
-            "/home/michael/.m2/repository/net/stickycode/examples/sticky-helloworld-war/1.2/sticky-helloworld-war-1.2-application.war"));
-    TomcatDeployer deployer = new TomcatDeployer(configuration);
-    deployer.deploy();
-    deployer.stop();
+  public File getWar() {
+    return war;
+  }
+
+  public void setWar(File war) {
+    this.war = war;
+  }
+
+  public int getPort() {
+    return port;
+  }
+
+  public void setPort(int port) {
+    this.port = port;
+  }
+
+  public String getBindAddress() {
+    return bindAddress;
+  }
+
+  public void setBindAddress(String bindAddress) {
+    this.bindAddress = bindAddress;
+  }
+
+  public String getContextPath() {
+    return contextPath;
+  }
+
+  public void setContextPath(String contextPath) {
+    this.contextPath = contextPath;
   }
 }

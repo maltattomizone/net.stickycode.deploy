@@ -12,8 +12,6 @@
  */
 package net.stickycode.deploy;
 
-import java.io.File;
-
 import org.apache.catalina.Engine;
 import org.apache.catalina.LifecycleException;
 import org.apache.catalina.connector.Connector;
@@ -28,14 +26,19 @@ public class TomcatDeployer {
   private Embedded container;
   private Engine engine;
   private StandardHost host;
+  private final DeploymentConfiguration configuration;
 
-  public void deploy(File warPath, int port) {
+  public TomcatDeployer(DeploymentConfiguration configuration) {
+    super();
+    this.configuration = configuration;
+  }
 
+  public void deploy() {
     createContainer();
     createEngine();
     createDefaultHost();
-    createContextForWar(warPath);
-    listenToHttpOnPort(port);
+    createContextForWar();
+    listenToHttpOnPort();
 
     try {
       container.start();
@@ -45,15 +48,15 @@ public class TomcatDeployer {
     }
   }
 
-  private void listenToHttpOnPort(int port) {
-    Connector connector = container.createConnector("localhost", port, "http");
+  private void listenToHttpOnPort() {
+    Connector connector = container.createConnector(configuration.getBindAddress(), configuration.getPort(), "http");
     container.addConnector(connector);
   }
 
-  private void createContextForWar(File warPath) {
+  private void createContextForWar() {
     StandardContext context = new StandardContext();
-    context.setDocBase(warPath.getAbsolutePath());
-    context.setPath("");
+    context.setDocBase(configuration.getWar().getAbsolutePath());
+    context.setPath(configuration.getContextPath());
     context.setLoader(new WebappLoader());
     context.setProcessTlds(false);
     context.setTldNamespaceAware(false);
@@ -91,10 +94,9 @@ public class TomcatDeployer {
   }
 
   private void createContainer() {
-    Embedded e = new Embedded();
-    e.setName("sticky-container");
-    e.setUseNaming(true);
-    e.setCatalinaHome("target-eclipse");
-    container = e;
+    container = new Embedded();
+    container.setName("sticky-container");
+    container.setUseNaming(true);
+    container.setCatalinaHome("target-eclipse");
   }
 }
