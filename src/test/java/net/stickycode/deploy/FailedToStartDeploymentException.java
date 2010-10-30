@@ -12,19 +12,25 @@
  */
 package net.stickycode.deploy;
 
-import java.io.File;
 
-import org.junit.Test;
+@SuppressWarnings("serial")
+public class FailedToStartDeploymentException
+    extends RuntimeException {
 
-public class WarTest {
-
-  @Test
-  public void war() {
-    TomcatDeployer deployer = new TomcatDeployer();
-    int port = 9999;
-    File warPath = new File(
-        "/home/michael/.m2/repository/net/stickycode/examples/sticky-helloworld-war/1.2/sticky-helloworld-war-1.2-application.war");
-    deployer.deploy(warPath, port);
-    deployer.stop();
+  public FailedToStartDeploymentException() {
+    super();
   }
+
+  public FailedToStartDeploymentException(String message, Throwable cause) {
+    super(message, cause);
+  }
+
+  public FailedToStartDeploymentException(String message) {
+    super(message);
+  }
+
+  public FailedToStartDeploymentException(Throwable cause) {
+    super(cause);
+  }
+
 }
