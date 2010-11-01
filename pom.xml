@@ -20,7 +20,7 @@
 	<parent>
 		<groupId>net.stickycode.parent</groupId>
 		<artifactId>sticky-jar</artifactId>
-		<version>1.5</version>
+		<version>1.7</version>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
 
@@ -63,7 +63,7 @@ monitoring, management and more</description>
 				<version>2.2</version>
 				<executions>
 					<execution>
-						<id>build-executable-uber-jar</id>
+						<id>build-executable-minimal-jar</id>
 						<phase>package</phase>
 						<goals>
 							<goal>single</goal>
@@ -81,7 +81,6 @@ monitoring, management and more</description>
 					</execution>
 				</executions>
 			</plugin>
-
 		</plugins>
 	</build>
 
