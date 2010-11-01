@@ -13,14 +13,44 @@
 package net.stickycode.deploy;
 
 import java.io.File;
-import java.io.IOException;
+import java.util.concurrent.atomic.AtomicInteger;
+
+import sun.misc.Signal;
+import sun.misc.SignalHandler;
 
 import net.stickycode.deploy.tomcat.DeploymentConfiguration;
 import net.stickycode.deploy.tomcat.TomcatDeployer;
 
-
 public class Deploy {
-  public static void main(String[] args) throws IOException {
+
+  private static final class StopHandler
+      implements SignalHandler {
+
+    private final TomcatDeployer deployer;
+    private AtomicInteger stopping = new AtomicInteger(0);
+
+    private StopHandler(TomcatDeployer deployer) {
+      this.deployer = deployer;
+    }
+
+    public void handle(Signal sig) {
+      int count = stopping.incrementAndGet();
+      switch(count) {
+      case 1:
+        System.out.println("Cleanly shutting down");
+        deployer.stop();
+        System.exit(0);
+      case 2:
+        System.err.println("Third time is the charm of the impatient. I will force the exit next time");
+        break;
+      default:
+        System.err.println("Forcing exit without proper shutdown");
+        System.exit(1);
+      }
+    }
+  }
+
+  public static void main(String[] args) throws InterruptedException {
     DeploymentConfiguration configuration = new DeploymentConfiguration();
     configuration.setWorkingDirectory(new File("tomcat"));
     configuration.setWar(new File(args[0]));
@@ -31,7 +61,13 @@ public class Deploy {
     final TomcatDeployer deployer = new TomcatDeployer(configuration);
 
     deployer.deploy();
-    System.in.read();
-    deployer.stop();
+    System.out.println("CTRL-C to exit");
+
+    Signal.handle(new Signal("INT"), new StopHandler(deployer));
+    Signal.handle(new Signal("TERM"), new StopHandler(deployer));
+
+    synchronized (deployer) {
+      deployer.wait();
+    }
   }
 }
