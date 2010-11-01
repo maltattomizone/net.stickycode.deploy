@@ -10,7 +10,7 @@
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the Apache License Version 2.0 for the specific language governing permissions and limitations there under.
  */
-package net.stickcode.deploy.tomcat;
+package net.stickycode.deploy.tomcat;
 
 import org.apache.catalina.Engine;
 import org.apache.catalina.LifecycleException;
@@ -26,6 +26,7 @@ public class TomcatDeployer {
   private Embedded container;
   private Engine engine;
   private StandardHost host;
+
   private final DeploymentConfiguration configuration;
 
   public TomcatDeployer(DeploymentConfiguration configuration) {
@@ -97,6 +98,7 @@ public class TomcatDeployer {
     container = new Embedded();
     container.setName("sticky-container");
     container.setUseNaming(true);
-    container.setCatalinaHome("target-eclipse");
+    container.setCatalinaHome(configuration.getWorkingDirectory().getAbsolutePath());
+    container.setCatalinaBase(configuration.getWorkingDirectory().getAbsolutePath());
   }
 }

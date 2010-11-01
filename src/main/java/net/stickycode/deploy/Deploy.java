@@ -10,26 +10,28 @@
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the Apache License Version 2.0 for the specific language governing permissions and limitations there under.
  */
-package net.stickcode.deploy.tomcat;
+package net.stickycode.deploy;
 
-@SuppressWarnings("serial")
-public class FailedToStopDeploymentException
-    extends RuntimeException {
+import java.io.File;
+import java.io.IOException;
 
-  public FailedToStopDeploymentException() {
-    super();
+import net.stickycode.deploy.tomcat.DeploymentConfiguration;
+import net.stickycode.deploy.tomcat.TomcatDeployer;
+
+
+public class Deploy {
+  public static void main(String[] args) throws IOException {
+    DeploymentConfiguration configuration = new DeploymentConfiguration();
+    configuration.setWorkingDirectory(new File("tomcat"));
+    configuration.setWar(new File(args[0]));
+    configuration.setPort(new Integer(args[1]));
+    if (args.length > 2)
+      configuration.setBindAddress(args[2]);
+
+    final TomcatDeployer deployer = new TomcatDeployer(configuration);
+
+    deployer.deploy();
+    System.in.read();
+    deployer.stop();
   }
-
-  public FailedToStopDeploymentException(String message, Throwable cause) {
-    super(message, cause);
-  }
-
-  public FailedToStopDeploymentException(String message) {
-    super(message);
-  }
-
-  public FailedToStopDeploymentException(Throwable cause) {
-    super(cause);
-  }
-
 }

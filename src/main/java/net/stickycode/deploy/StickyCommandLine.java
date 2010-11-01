@@ -12,25 +12,16 @@
  */
 package net.stickycode.deploy;
 
-import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
 
-import org.junit.Test;
 
-import net.stickycode.deploy.tomcat.DeploymentConfiguration;
-import net.stickycode.deploy.tomcat.TomcatDeployer;
+public class StickyCommandLine {
 
-public class WarTest {
+  private Map<String, String> options = new HashMap<String, String>();
 
-  @Test
-  public void war() {
-    DeploymentConfiguration configuration = new DeploymentConfiguration();
-    configuration.setWorkingDirectory(new File("target/tomcat"));
-    configuration.setPort(9999);
-    configuration
-        .setWar(new File(
-            "/home/michael/.m2/repository/net/stickycode/examples/sticky-helloworld-war/1.2/sticky-helloworld-war-1.2-application.war"));
-    TomcatDeployer deployer = new TomcatDeployer(configuration);
-    deployer.deploy();
-    deployer.stop();
+  public StickyCommandLine(String[] args) {
+
   }
+
 }

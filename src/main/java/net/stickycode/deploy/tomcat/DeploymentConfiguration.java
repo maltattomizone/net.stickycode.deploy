@@ -10,7 +10,7 @@
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the Apache License Version 2.0 for the specific language governing permissions and limitations there under.
  */
-package net.stickcode.deploy.tomcat;
+package net.stickycode.deploy.tomcat;
 
 import java.io.File;
 
@@ -20,6 +20,12 @@ public class DeploymentConfiguration {
   private int port = 8080;
   private String bindAddress = "localhost";
   private String contextPath = "";
+  private File workingDirectory;
+
+  public DeploymentConfiguration() {
+    super();
+    this.workingDirectory = new File(System.getProperty("user.dir"));
+  }
 
   public File getWar() {
     return war;
@@ -51,5 +57,13 @@ public class DeploymentConfiguration {
 
   public void setContextPath(String contextPath) {
     this.contextPath = contextPath;
+  }
+
+  public File getWorkingDirectory() {
+    return workingDirectory;
+  }
+
+  public void setWorkingDirectory(File workingDirectory) {
+    this.workingDirectory = workingDirectory;
   }
 }
