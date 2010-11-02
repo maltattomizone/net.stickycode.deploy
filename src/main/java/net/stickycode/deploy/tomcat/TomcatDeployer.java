@@ -23,7 +23,15 @@ import org.apache.catalina.startup.Embedded;
 
 public class TomcatDeployer {
 
-  private Embedded container;
+
+  public class EmbeddedDeployer
+      extends Embedded {
+    public boolean isStarted() {
+      return started;
+    }
+  }
+
+  private EmbeddedDeployer container;
   private Engine engine;
   private StandardHost host;
 
@@ -47,6 +55,9 @@ public class TomcatDeployer {
     catch (LifecycleException e) {
       throw new FailedToStartDeploymentException(e);
     }
+
+    if (!container.isStarted())
+      throw new FailedToStartDeploymentException();
   }
 
   private void listenToHttpOnPort() {
@@ -95,7 +106,7 @@ public class TomcatDeployer {
   }
 
   private void createContainer() {
-    container = new Embedded();
+    container = new EmbeddedDeployer();
     container.setName("sticky-container");
     container.setUseNaming(true);
     container.setCatalinaHome(configuration.getWorkingDirectory().getAbsolutePath());
