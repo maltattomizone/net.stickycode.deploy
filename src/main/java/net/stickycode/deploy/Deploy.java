@@ -65,7 +65,12 @@ public class Deploy {
 
   public static void main(String[] args) throws InterruptedException {
     DeploymentConfiguration configuration = new DeploymentConfiguration();
-    configuration.setWar(new File(args[0]));
+    File war = new File(args[0]);
+    if (!war.canRead()) {
+      System.err.println("War not found " + war.getAbsolutePath());
+      System.exit(1);
+    }
+    configuration.setWar(war);
     configuration.setPort(new Integer(args[1]));
     if (args.length > 2)
       configuration.setBindAddress(args[2]);
@@ -78,22 +83,22 @@ public class Deploy {
 
     try {
       deployer.deploy();
+
+      if (args.length > 4) {
+        writePid(args);
+      }
     }
     catch (RuntimeException e) {
       e.printStackTrace();
       System.exit(1);
     }
 
-    if (args.length > 4) {
-      writePid(args);
-    }
 
     System.out.println("CTRL-C to exit");
 
     Signal.handle(new Signal("INT"), new StopHandler(deployer));
     Signal.handle(new Signal("TERM"), new StopHandler(deployer));
     Signal.handle(new Signal("HUP"), new IgnoreHandler());
-
 
     synchronized (deployer) {
       deployer.wait();
