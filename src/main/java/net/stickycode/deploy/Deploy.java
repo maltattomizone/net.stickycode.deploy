@@ -13,6 +13,9 @@
 package net.stickycode.deploy;
 
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.lang.management.ManagementFactory;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import sun.misc.Signal;
@@ -81,14 +84,32 @@ public class Deploy {
       System.exit(1);
     }
 
+    if (args.length > 4) {
+      writePid(args);
+    }
+
     System.out.println("CTRL-C to exit");
 
     Signal.handle(new Signal("INT"), new StopHandler(deployer));
     Signal.handle(new Signal("TERM"), new StopHandler(deployer));
     Signal.handle(new Signal("HUP"), new IgnoreHandler());
 
+
     synchronized (deployer) {
       deployer.wait();
+    }
+  }
+
+  private static void writePid(String[] args) {
+    try {
+      String name = ManagementFactory.getRuntimeMXBean().getName();
+      String pid = name.substring(0, name.indexOf('@'));
+      FileWriter w = new FileWriter(new File(args[4]));
+      w.write(pid);
+      w.close();
+    }
+    catch (IOException e) {
+      throw new RuntimeException(e);
     }
   }
 }
