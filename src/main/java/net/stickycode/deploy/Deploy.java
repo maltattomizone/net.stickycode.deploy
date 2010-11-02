@@ -23,6 +23,16 @@ import net.stickycode.deploy.tomcat.TomcatDeployer;
 
 public class Deploy {
 
+  private static final class IgnoreHandler
+      implements SignalHandler {
+
+    @Override
+    public void handle(Signal s) {
+      System.out.println("Ignoring " + s.getName());
+    }
+
+  }
+
   private static final class StopHandler
       implements SignalHandler {
 
@@ -33,18 +43,18 @@ public class Deploy {
       this.deployer = deployer;
     }
 
-    public void handle(Signal sig) {
+    public void handle(Signal s) {
       int count = stopping.incrementAndGet();
       switch(count) {
       case 1:
-        System.out.println("Cleanly shutting down");
+        System.out.println("Cleanly shutting down on " + s.getName());
         deployer.stop();
         System.exit(0);
       case 2:
-        System.err.println("Third time is the charm of the impatient. I will force the exit next time");
+        System.err.println("Third time is the charm of the impatient. I will force the exit next time you " + s.getName());
         break;
       default:
-        System.err.println("Forcing exit without proper shutdown");
+        System.err.println("Forcing exit without proper shutdown on " + s.getName());
         System.exit(1);
       }
     }
@@ -52,19 +62,30 @@ public class Deploy {
 
   public static void main(String[] args) throws InterruptedException {
     DeploymentConfiguration configuration = new DeploymentConfiguration();
-    configuration.setWorkingDirectory(new File("tomcat"));
     configuration.setWar(new File(args[0]));
     configuration.setPort(new Integer(args[1]));
     if (args.length > 2)
       configuration.setBindAddress(args[2]);
+    if (args.length > 3)
+      configuration.setWorkingDirectory(new File(args[3]));
+    else
+      configuration.setWorkingDirectory(new File("tomcat"));
 
     final TomcatDeployer deployer = new TomcatDeployer(configuration);
 
-    deployer.deploy();
+    try {
+      deployer.deploy();
+    }
+    catch (RuntimeException e) {
+      e.printStackTrace();
+      System.exit(1);
+    }
+
     System.out.println("CTRL-C to exit");
 
     Signal.handle(new Signal("INT"), new StopHandler(deployer));
     Signal.handle(new Signal("TERM"), new StopHandler(deployer));
+    Signal.handle(new Signal("HUP"), new IgnoreHandler());
 
     synchronized (deployer) {
       deployer.wait();
