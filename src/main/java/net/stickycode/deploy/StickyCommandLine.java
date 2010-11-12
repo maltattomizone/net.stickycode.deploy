@@ -12,16 +12,63 @@
  */
 package net.stickycode.deploy;
 
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.Map;
 
 
 public class StickyCommandLine {
 
+
   private Map<String, String> options = new HashMap<String, String>();
+  private Collection<String> commands = new LinkedList<String>();
 
   public StickyCommandLine(String[] args) {
+    for (String s : args) {
+      if (s.startsWith("--"))
+        addOption(s.substring(2));
+      else
+        addCommand(s);
+    }
+  }
 
+  private void addOption(String option) {
+    int split = option.indexOf('=');
+    if (split == -1)
+      options.put(option, null);
+    else
+      options.put(
+          option.substring(0, split),
+          option.substring(split + 1));
+  }
+
+  private void addCommand(String s) {
+    if (!Character.isJavaIdentifierStart(s.charAt(0)))
+      throw new InvalidCommandException(s, s.charAt(0));
+
+    for (char c : s.toCharArray()) {
+      if (!Character.isJavaIdentifierPart(c))
+        throw new InvalidCommandException(s, c);
+    }
+
+    commands.add(s);
+  }
+
+  public void waitForExit() throws InterruptedException {
+    synchronized (this) {
+      this.wait();
+    }
+  }
+
+  public StickySignalTrap signalTrap() {
+    return new StickySignalTrap();
+  }
+
+  public void configure(Object configuration) {
+  }
+
+  public void execute(Object deployer) {
   }
 
 }

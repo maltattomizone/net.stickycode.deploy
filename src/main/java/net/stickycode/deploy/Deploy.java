@@ -12,9 +12,6 @@
  */
 package net.stickycode.deploy;
 
-import java.io.File;
-import java.util.concurrent.atomic.AtomicInteger;
-
 import sun.misc.Signal;
 import sun.misc.SignalHandler;
 
@@ -23,72 +20,73 @@ import net.stickycode.deploy.tomcat.TomcatDeployer;
 
 public class Deploy {
 
-  private static final class IgnoreHandler
-      implements SignalHandler {
-
-    @Override
-    public void handle(Signal s) {
-      System.out.println("Ignoring " + s.getName());
-    }
-
-  }
-
-  private static final class StopHandler
-      implements SignalHandler {
-
-    private final TomcatDeployer deployer;
-    private AtomicInteger stopping = new AtomicInteger(0);
-
-    private StopHandler(TomcatDeployer deployer) {
-      this.deployer = deployer;
-    }
-
-    public void handle(Signal s) {
-      int count = stopping.incrementAndGet();
-      switch(count) {
-      case 1:
-        System.out.println("Cleanly shutting down on " + s.getName());
-        deployer.stop();
-        System.exit(0);
-      case 2:
-        System.err.println("Third time is the charm of the impatient. I will force the exit next time you " + s.getName());
-        break;
-      default:
-        System.err.println("Forcing exit without proper shutdown on " + s.getName());
-        System.exit(1);
-      }
-    }
-  }
+//  private static final class StopHandler
+//      implements SignalHandler {
+//
+//    private final TomcatDeployer deployer;
+//    private AtomicInteger stopping = new AtomicInteger(0);
+//
+//    private StopHandler(TomcatDeployer deployer) {
+//      this.deployer = deployer;
+//    }
+//
+//    public void handle(Signal s) {
+//      int count = stopping.incrementAndGet();
+//      switch(count) {
+//      case 1:
+//        System.out.println("Cleanly shutting down on " + s.getName());
+//        deployer.stop();
+//        System.exit(0);
+//      case 2:
+//        System.err.println("Third time is the charm of the impatient. I will force the exit next time you " + s.getName());
+//        break;
+//      default:
+//        System.err.println("Forcing exit without proper shutdown on " + s.getName());
+//        System.exit(1);
+//      }
+//    }
+//  }
 
   public static void main(String[] args) throws InterruptedException {
+    StickyCommandLine cli = new StickyCommandLine(args);
+
     DeploymentConfiguration configuration = new DeploymentConfiguration();
-    configuration.setWar(new File(args[0]));
-    configuration.setPort(new Integer(args[1]));
-    if (args.length > 2)
-      configuration.setBindAddress(args[2]);
-    if (args.length > 3)
-      configuration.setWorkingDirectory(new File(args[3]));
-    else
-      configuration.setWorkingDirectory(new File("tomcat"));
+    cli.configure(configuration);
+
+//
+//    configuration.setWar(new File(args[0]));
+//    configuration.setPort(new Integer(args[1]));
+//    if (args.length > 2)
+//      configuration.setBindAddress(args[2]);
+//    if (args.length > 3)
+//      configuration.setWorkingDirectory(new File(args[3]));
+//    else
+//      configuration.setWorkingDirectory(new File("tomcat"));
 
     final TomcatDeployer deployer = new TomcatDeployer(configuration);
 
-    try {
-      deployer.deploy();
-    }
-    catch (RuntimeException e) {
-      e.printStackTrace();
-      System.exit(1);
-    }
+    cli.execute(deployer);
+
+//
+//
+//    try {
+//      deployer.deploy();
+//    }
+//    catch (RuntimeException e) {
+//      e.printStackTrace();
+//      System.exit(1);
+//    }
 
     System.out.println("CTRL-C to exit");
 
-    Signal.handle(new Signal("INT"), new StopHandler(deployer));
-    Signal.handle(new Signal("TERM"), new StopHandler(deployer));
-    Signal.handle(new Signal("HUP"), new IgnoreHandler());
+    StickySignalTrap trap = cli.signalTrap();
+    trap.shutdown(new TomcatShutdownHandler(deployer));
+    trap.noHangup();
+    trap.waitForExit();
 
-    synchronized (deployer) {
-      deployer.wait();
-    }
+//    Signal.handle(new Signal("INT"), new StopHandler(deployer));
+//    Signal.handle(new Signal("TERM"), new StopHandler(deployer));
+//    Signal.handle(new Signal("HUP"), new IgnoreHandler());
+
   }
 }

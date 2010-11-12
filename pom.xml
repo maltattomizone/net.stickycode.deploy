@@ -51,6 +51,13 @@ monitoring, management and more</description>
 				</exclusion>
 			</exclusions>
 		</dependency>
+		<dependency>
+			<groupId>net.stickycode</groupId>
+			<artifactId>sticky-exception</artifactId>
+			<version>[1,2)</version>
+			<type>jar</type>
+			<scope>compile</scope>
+		</dependency>
 	</dependencies>
 
 	<build>
