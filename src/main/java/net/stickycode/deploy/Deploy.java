@@ -12,9 +12,7 @@
  */
 package net.stickycode.deploy;
 
-import sun.misc.Signal;
-import sun.misc.SignalHandler;
-
+import net.stickycode.deploy.cli.StickyCommandLine;
 import net.stickycode.deploy.tomcat.DeploymentConfiguration;
 import net.stickycode.deploy.tomcat.TomcatDeployer;
 
@@ -65,7 +63,7 @@ public class Deploy {
 
     final TomcatDeployer deployer = new TomcatDeployer(configuration);
 
-    cli.execute(deployer);
+//    cli.execute(deployer);
 
 //
 //
@@ -77,16 +75,13 @@ public class Deploy {
 //      System.exit(1);
 //    }
 
-    System.out.println("CTRL-C to exit");
-
-    StickySignalTrap trap = cli.signalTrap();
-    trap.shutdown(new TomcatShutdownHandler(deployer));
-    trap.noHangup();
-    trap.waitForExit();
+//    cli.launch(deployer, )
+    cli.launch(cli, new TomcatShutdownHandler(deployer));
 
 //    Signal.handle(new Signal("INT"), new StopHandler(deployer));
 //    Signal.handle(new Signal("TERM"), new StopHandler(deployer));
 //    Signal.handle(new Signal("HUP"), new IgnoreHandler());
 
   }
+
 }
