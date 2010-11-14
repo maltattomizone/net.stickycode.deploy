@@ -27,10 +27,32 @@
 	<packaging>jar</packaging>
 
 	<name>sticky-cli</name>
-	<description>Class, Field and Method metadata used to remove boilerplate code for construction, configuration, scheduling, 
-monitoring, management and more</description>
+	<description>Using annotations and sensical conventions to derive intuitive command line parsing</description>
 
-	<inceptionYear>2008</inceptionYear>
+	<inceptionYear>2002</inceptionYear>
 	<dependencies>
+		<dependency>
+			<groupId>net.stickycode.composite</groupId>
+			<artifactId>sticky-composite-unittest</artifactId>
+			<version>[1,2)</version>
+			<type>jar</type>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>net.stickycode</groupId>
+			<artifactId>sticky-reflector</artifactId>
+			<version>[1,2)</version>
+			<type>jar</type>
+			<scope>compile</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>net.stickycode.configured</groupId>
+			<artifactId>sticky-configured</artifactId>
+			<version>[1,2)</version>
+			<type>jar</type>
+			<scope>compile</scope>
+		</dependency>
 	</dependencies>
 </project>
