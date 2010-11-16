@@ -12,9 +12,9 @@
  */
 package net.stickycode.deploy.cli;
 
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 import net.stickycode.configured.ConfigurationSource;
@@ -23,7 +23,7 @@ public class CommandLineConfigurationSource
     implements ConfigurationSource {
 
   private final Map<String, String> options = new HashMap<String, String>();
-  private final Collection<String> commands = new LinkedList<String>();
+  private final List<String> commands = new LinkedList<String>();
 
   public CommandLineConfigurationSource(String... args) {
     super();
@@ -39,15 +39,25 @@ public class CommandLineConfigurationSource
   private void addOption(String option) {
     int split = option.indexOf('=');
     if (split == -1)
-      addOption(option, null);
+      addBooleanOption(option);
     else
       addOption(
           option.substring(0, split),
           option.substring(split + 1));
   }
 
+  private void addBooleanOption(String option) {
+    if (option.startsWith("no-"))
+      addOption(option.substring(3), "false");
+    else
+      addOption(option, "true");
+  }
+
   private void addOption(String key, String value) {
-    options.put(key.replace('-', '.'), value);
+    String hyphensRemoved = key.replace('-', '.');
+    String duplicated = options.put(hyphensRemoved, value);
+    if (duplicated != null)
+      throw new DuplicatedCommandLineOptionException(hyphensRemoved, value, duplicated);
   }
 
   private void addCommand(String s) {
@@ -70,6 +80,10 @@ public class CommandLineConfigurationSource
   @Override
   public String getValue(String key) {
     return options.get(key);
+  }
+
+  public List<String> getCommands() {
+    return commands;
   }
 
 }
