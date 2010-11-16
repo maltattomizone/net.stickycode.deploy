@@ -15,6 +15,8 @@ package net.stickycode.deploy.cli;
 import net.stickycode.configured.ConfigurationSystem;
 import net.stickycode.configured.source.EnvironmentConfigurationSource;
 import net.stickycode.configured.source.SystemPropertiesConfigurationSource;
+import net.stickycode.deploy.signal.StickyShutdownHandler;
+import net.stickycode.deploy.signal.StickySignalTrap;
 import net.stickycode.reflector.Reflector;
 
 
@@ -22,7 +24,7 @@ public class StickyCommandLine {
 
   private final ConfigurationSystem configuration = new ConfigurationSystem();
 
-  public StickyCommandLine(String[] args) {
+  public StickyCommandLine(String... args) {
     configuration.add(new CommandLineConfigurationSource(args));
     configuration.add(new SystemPropertiesConfigurationSource());
     configuration.add(new EnvironmentConfigurationSource());
