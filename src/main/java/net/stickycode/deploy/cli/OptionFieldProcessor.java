@@ -16,6 +16,7 @@ import java.lang.reflect.Field;
 
 import net.stickycode.configured.ConfigurationSystem;
 import net.stickycode.reflector.AnnotatedFieldProcessor;
+import net.stickycode.stereotype.Configured;
 
 
 public class OptionFieldProcessor
@@ -24,7 +25,7 @@ public class OptionFieldProcessor
   private final ConfigurationSystem configuration;
 
   public OptionFieldProcessor(ConfigurationSystem configuration) {
-    super(Option.class);
+    super(Configured.class);
     this.configuration = configuration;
   }
 
