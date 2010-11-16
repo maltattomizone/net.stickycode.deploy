@@ -10,13 +10,13 @@
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the Apache License Version 2.0 for the specific language governing permissions and limitations there under.
  */
-package net.stickycode.deploy.cli;
+package net.stickycode.deploy.signal;
 
 
 import sun.misc.Signal;
 import sun.misc.SignalHandler;
 
-import net.stickycode.deploy.cli.StickySignal.Code;
+import net.stickycode.deploy.signal.StickySignal.Code;
 
 
 public class StickySignalTrap {

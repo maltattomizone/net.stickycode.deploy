@@ -10,15 +10,19 @@
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the Apache License Version 2.0 for the specific language governing permissions and limitations there under.
  */
-package net.stickycode.deploy.cli;
+package net.stickycode.deploy.signal;
 
-public interface StickyShutdownHandler
-    extends StickySignalHandler {
+import net.stickycode.exception.PermanentException;
 
-  void forceShutdown();
 
-  void forceShutdownWarning();
+@SuppressWarnings("serial")
+public class WaitingMainThreadWokenUp
+    extends PermanentException {
 
-  void shutdown();
+  public WaitingMainThreadWokenUp(Throwable t) {
+    super(t, "The waiting main thread was woken up, the jvm will shutdown now if there are only daemon threads");
+  }
+
+
 
 }
