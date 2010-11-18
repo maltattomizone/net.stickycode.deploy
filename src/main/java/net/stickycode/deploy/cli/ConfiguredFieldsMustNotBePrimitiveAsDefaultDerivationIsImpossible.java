@@ -14,27 +14,18 @@ package net.stickycode.deploy.cli;
 
 import java.lang.reflect.Field;
 
-import net.stickycode.configured.ConfigurationSystem;
-import net.stickycode.reflector.AnnotatedFieldProcessor;
-import net.stickycode.stereotype.Configured;
+import net.stickycode.exception.PermanentException;
 
 
-public class OptionFieldProcessor
-    extends AnnotatedFieldProcessor {
+@SuppressWarnings("serial")
+public class ConfiguredFieldsMustNotBePrimitiveAsDefaultDerivationIsImpossible
+    extends PermanentException {
 
-  private final ConfigurationSystem configuration;
-
-  public OptionFieldProcessor(ConfigurationSystem configuration) {
-    super(Configured.class);
-    this.configuration = configuration;
-  }
-
-  @Override
-  public void processField(Object target, Field field) {
-    if (field.getType().isPrimitive())
-      throw new ConfiguredFieldsMustNotBePrimitiveAsDefaultDerivationIsImpossible(target, field);
-
-    configuration.registerField(target, field);
+  public ConfiguredFieldsMustNotBePrimitiveAsDefaultDerivationIsImpossible(Object target, Field field) {
+    super("The field '{}' on '{}' is a primitive type '{}'. In order to provide a simple convention default values " +
+    		"for configured fields are specified field initialisers, this means that primitive fields default values cannot be determined." +
+    		"I chose to make this an error to ensure that the developer has thought carefully about whether or not a value should have a default. "
+    		, field.getName(), target.getClass().getName(), field.getType().getSimpleName());
   }
 
 }
