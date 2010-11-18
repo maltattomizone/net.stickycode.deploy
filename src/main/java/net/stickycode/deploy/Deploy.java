@@ -13,8 +13,8 @@
 package net.stickycode.deploy;
 
 import net.stickycode.deploy.cli.StickyCommandLine;
-import net.stickycode.deploy.tomcat.DeploymentConfiguration;
 import net.stickycode.deploy.tomcat.TomcatDeployer;
+import net.stickycode.deploy.tomcat.TomcatShutdownHandler;
 
 public class Deploy {
 

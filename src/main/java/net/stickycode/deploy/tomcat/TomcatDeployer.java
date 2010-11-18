@@ -21,6 +21,7 @@ import org.apache.catalina.loader.WebappLoader;
 import org.apache.catalina.startup.ContextConfig;
 import org.apache.catalina.startup.Embedded;
 
+import net.stickycode.deploy.DeploymentConfiguration;
 import net.stickycode.deploy.cli.Main;
 
 public class TomcatDeployer {

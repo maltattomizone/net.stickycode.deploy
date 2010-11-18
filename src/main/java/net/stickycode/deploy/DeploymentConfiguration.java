@@ -10,16 +10,27 @@
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the Apache License Version 2.0 for the specific language governing permissions and limitations there under.
  */
-package net.stickycode.deploy.tomcat;
+package net.stickycode.deploy;
 
 import java.io.File;
 
+import net.stickycode.stereotype.Configured;
+
 public class DeploymentConfiguration {
 
+  @Configured
   private File war;
+
+  @Configured
   private int port = 8080;
+
+  @Configured
   private String bindAddress = "localhost";
+
+  @Configured
   private String contextPath = "";
+
+  @Configured
   private File workingDirectory;
 
   public DeploymentConfiguration() {
