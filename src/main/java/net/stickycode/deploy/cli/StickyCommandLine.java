@@ -13,6 +13,7 @@
 package net.stickycode.deploy.cli;
 
 import net.stickycode.configured.ConfigurationSystem;
+import net.stickycode.configured.FieldNameKeyGenerator;
 import net.stickycode.configured.source.EnvironmentConfigurationSource;
 import net.stickycode.configured.source.SystemPropertiesConfigurationSource;
 import net.stickycode.deploy.signal.StickyShutdownHandler;
@@ -22,7 +23,7 @@ import net.stickycode.reflector.Reflector;
 
 public class StickyCommandLine {
 
-  private final ConfigurationSystem configuration = new ConfigurationSystem();
+  private final ConfigurationSystem configuration = new ConfigurationSystem(new FieldNameKeyGenerator());
 
   public StickyCommandLine(String... args) {
     configuration.add(new CommandLineConfigurationSource(args));

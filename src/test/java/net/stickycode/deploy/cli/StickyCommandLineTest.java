@@ -37,21 +37,21 @@ public class StickyCommandLineTest {
 
   @Test
   public void booleanConfiguration() {
-    Sample target = sample("--sample-value");
+    Sample target = sample("--value");
     assertThat(target.value).isEqualTo("true");
     assertThat(target.doSomething).isFalse();
   }
 
   @Test
   public void configurationValue() {
-    Sample target = sample("--sample-value=blah", "--sample-doSomething");
+    Sample target = sample("--value=blah", "--doSomething");
     assertThat(target.value).isEqualTo("blah");
     assertThat(target.doSomething).isTrue();
   }
 
   @Test
   public void reversedBoolean() {
-    Sample target = sample("--sample-value=blah", "--no-sample-doSomething");
+    Sample target = sample("--value=blah", "--no-doSomething");
     assertThat(target.value).isEqualTo("blah");
     assertThat(target.doSomething).isFalse();
   }
