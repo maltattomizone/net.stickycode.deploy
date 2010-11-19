@@ -32,6 +32,10 @@ public class StickyCommandLine {
   }
 
   public void launch(Object application, StickyShutdownHandler shutdownHandler) {
+    Reflector reflector = new Reflector();
+    reflector.forEachMethod(new MainMethodExecutingProcessor());
+    reflector.process(application);
+
     System.out.println("CTRL-C to exit");
 
     StickySignalTrap trap = signalTrap();
