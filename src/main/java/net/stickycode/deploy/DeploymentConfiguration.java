@@ -19,10 +19,10 @@ import net.stickycode.stereotype.Configured;
 public class DeploymentConfiguration {
 
   @Configured
-  private File war;
+  private File application;
 
   @Configured
-  private int port = 8080;
+  private Integer port = 8080;
 
   @Configured
   private String bindAddress = "localhost";
@@ -38,43 +38,23 @@ public class DeploymentConfiguration {
     this.workingDirectory = new File(System.getProperty("user.dir"));
   }
 
-  public File getWar() {
-    return war;
-  }
-
-  public void setWar(File war) {
-    this.war = war;
+  public File getApplication() {
+    return application;
   }
 
   public int getPort() {
     return port;
   }
 
-  public void setPort(int port) {
-    this.port = port;
-  }
-
   public String getBindAddress() {
     return bindAddress;
-  }
-
-  public void setBindAddress(String bindAddress) {
-    this.bindAddress = bindAddress;
   }
 
   public String getContextPath() {
     return contextPath;
   }
 
-  public void setContextPath(String contextPath) {
-    this.contextPath = contextPath;
-  }
-
   public File getWorkingDirectory() {
     return workingDirectory;
-  }
-
-  public void setWorkingDirectory(File workingDirectory) {
-    this.workingDirectory = workingDirectory;
   }
 }
