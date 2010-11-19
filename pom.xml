@@ -17,13 +17,13 @@
 	<parent>
 		<groupId>net.stickycode.parent</groupId>
 		<artifactId>sticky-jar</artifactId>
-		<version>1.5</version>
+		<version>1.7</version>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>net.stickycode.deploy</groupId>
 	<artifactId>sticky-cli</artifactId>
-	<version>1.3-SNAPSHOT</version>
+	<version>1.4-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
 	<name>sticky-cli</name>
