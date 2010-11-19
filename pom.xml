@@ -23,7 +23,7 @@
 
 	<groupId>net.stickycode.deploy</groupId>
 	<artifactId>sticky-cli</artifactId>
-	<version>1.2-SNAPSHOT</version>
+	<version>1.2</version>
 	<packaging>jar</packaging>
 
 	<name>sticky-cli</name>
@@ -62,4 +62,9 @@
 			<scope>compile</scope>
 		</dependency>
 	</dependencies>
+
+  <scm>
+    <connection>scm:svn:https://stickycode.googlecode.com/svn/tags/net.stickycode.deploy/sticky-cli-1.2</connection>
+    <developerConnection>scm:svn:https://stickycode.googlecode.com/svn/tags/net.stickycode.deploy/sticky-cli-1.2</developerConnection>
+  </scm>
 </project>
