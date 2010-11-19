@@ -46,7 +46,6 @@ public class StickySignalTrap {
 
   public StickySignalTrap shutdown(StickyShutdownHandler stopHandler) {
     trap(Code.INT, stopHandler);
-    trap(Code.QUIT, stopHandler);
     trap(Code.TERM, stopHandler);
     return this;
   }
