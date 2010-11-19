@@ -10,24 +10,19 @@
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the Apache License Version 2.0 for the specific language governing permissions and limitations there under.
  */
-package net.stickycode.deploy.tomcat;
+package net.stickycode.deploy;
+
+import org.junit.Test;
+
+import net.stickycode.deploy.cli.StickyCommandLine;
 
 
-import net.stickycode.deploy.signal.AbstractStickyShutdownHandler;
+public class ConfiguredTest {
 
-
-public class TomcatShutdownHandler
-    extends AbstractStickyShutdownHandler {
-
-  private final TomcatDeployer deployer;
-
-  public TomcatShutdownHandler(TomcatDeployer deployer) {
-    this.deployer = deployer;
+  @Test
+  public void sanity() {
+    StickyCommandLine cli = new StickyCommandLine("--application=src/test/wars/sticky-helloworld-war-1.2-application.war");
+    DeploymentConfiguration configuration = new DeploymentConfiguration();
+    cli.configure(configuration);
   }
-
-  @Override
-  public void shutdown() {
-    deployer.stop();
-  }
-
 }

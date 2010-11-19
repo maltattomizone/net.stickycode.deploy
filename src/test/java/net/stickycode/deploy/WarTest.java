@@ -22,14 +22,14 @@ public class WarTest {
 
   @Test
   public void war() {
-    DeploymentConfiguration configuration = new DeploymentConfiguration();
-    configuration.setWorkingDirectory(new File("target/tomcat"));
-    configuration.setPort(9999);
-    configuration
-        .setWar(new File(
-            "/home/michael/.m2/repository/net/stickycode/examples/sticky-helloworld-war/1.2/sticky-helloworld-war-1.2-application.war"));
-    TomcatDeployer deployer = new TomcatDeployer(configuration);
-    deployer.deploy();
-    deployer.stop();
+//    DeploymentConfiguration configuration = new DeploymentConfiguration();
+//    configuration.setWorkingDirectory(new File("target/tomcat"));
+//    configuration.setPort(9999);
+//    configuration
+//        .setWar(new File(
+//            "/home/michael/.m2/repository/net/stickycode/examples/sticky-helloworld-war/1.2/sticky-helloworld-war-1.2-application.war"));
+//    TomcatDeployer deployer = new TomcatDeployer(configuration);
+//    deployer.deploy();
+//    deployer.stop();
   }
 }

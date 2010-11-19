@@ -31,11 +31,10 @@ public class DeploymentConfiguration {
   private String contextPath = "";
 
   @Configured
-  private File workingDirectory;
+  private File workingDirectory = new File(System.getProperty("user.dir"));
 
   public DeploymentConfiguration() {
     super();
-    this.workingDirectory = new File(System.getProperty("user.dir"));
   }
 
   public File getApplication() {

@@ -71,7 +71,7 @@ public class TomcatDeployer {
 
   private void createContextForWar() {
     StandardContext context = new StandardContext();
-    context.setDocBase(configuration.getWar().getAbsolutePath());
+    context.setDocBase(configuration.getApplication().getAbsolutePath());
     context.setPath(configuration.getContextPath());
     context.setLoader(new WebappLoader());
     context.setProcessTlds(false);
@@ -102,7 +102,8 @@ public class TomcatDeployer {
 
   public void stop() {
     try {
-      container.stop();
+      if (container != null)
+        container.stop();
     }
     catch (LifecycleException e) {
       throw new FailedToStopDeploymentException(e);

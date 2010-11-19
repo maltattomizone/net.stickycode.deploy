@@ -18,70 +18,12 @@ import net.stickycode.deploy.tomcat.TomcatShutdownHandler;
 
 public class Deploy {
 
-//  private static final class StopHandler
-//      implements SignalHandler {
-//
-//    private final TomcatDeployer deployer;
-//    private AtomicInteger stopping = new AtomicInteger(0);
-//
-//    private StopHandler(TomcatDeployer deployer) {
-//      this.deployer = deployer;
-//    }
-//
-//    public void handle(Signal s) {
-//      int count = stopping.incrementAndGet();
-//      switch(count) {
-//      case 1:
-//        System.out.println("Cleanly shutting down on " + s.getName());
-//        deployer.stop();
-//        System.exit(0);
-//      case 2:
-//        System.err.println("Third time is the charm of the impatient. I will force the exit next time you " + s.getName());
-//        break;
-//      default:
-//        System.err.println("Forcing exit without proper shutdown on " + s.getName());
-//        System.exit(1);
-//      }
-//    }
-//  }
-
   public static void main(String[] args) throws InterruptedException {
     StickyCommandLine cli = new StickyCommandLine(args);
-
     DeploymentConfiguration configuration = new DeploymentConfiguration();
     cli.configure(configuration);
-
-//
-//    configuration.setWar(new File(args[0]));
-//    configuration.setPort(new Integer(args[1]));
-//    if (args.length > 2)
-//      configuration.setBindAddress(args[2]);
-//    if (args.length > 3)
-//      configuration.setWorkingDirectory(new File(args[3]));
-//    else
-//      configuration.setWorkingDirectory(new File("tomcat"));
-
     final TomcatDeployer deployer = new TomcatDeployer(configuration);
-
-//    cli.execute(deployer);
-
-//
-//
-//    try {
-//      deployer.deploy();
-//    }
-//    catch (RuntimeException e) {
-//      e.printStackTrace();
-//      System.exit(1);
-//    }
-
-//    cli.launch(deployer, )
-    cli.launch(cli, new TomcatShutdownHandler(deployer));
-
-//    Signal.handle(new Signal("INT"), new StopHandler(deployer));
-//    Signal.handle(new Signal("TERM"), new StopHandler(deployer));
-//    Signal.handle(new Signal("HUP"), new IgnoreHandler());
-
+    cli.launch(deployer, new TomcatShutdownHandler(deployer));
   }
 
 }
