@@ -12,9 +12,20 @@
  */
 package net.stickycode.deploy.sample.helloworld;
 
-public class HelloWorld {
+public class HelloWorld implements Runnable {
 
   public void hello() {
-    System.out.println("Hello");
+    System.out.println("Hello World!");
+  }
+
+  @Override
+  public void run() {
+    System.out.println("Hello Embedded World!");
+    try {
+      Thread.sleep(5000);
+    }
+    catch (InterruptedException e) {
+      throw new RuntimeException(e);
+    }
   }
 }
