@@ -26,25 +26,18 @@
 	<inceptionYear>2010</inceptionYear>
 	<dependencies>
 		<dependency>
-			<groupId>net.stickycode.composite</groupId>
-			<artifactId>sticky-composite-unittest</artifactId>
+			<groupId>net.stickycode.deploy.sample</groupId>
+			<artifactId>sticky-deployer-sample-babysteps</artifactId>
 			<version>[1,2)</version>
 			<type>jar</type>
-			<scope>test</scope>
+			<scope>provided</scope>
 		</dependency>
 		<dependency>
-			<groupId>net.stickycode</groupId>
-			<artifactId>sticky-exception</artifactId>
+			<groupId>net.stickycode.deploy.sample</groupId>
+			<artifactId>sticky-deployer-sample-helloworld</artifactId>
 			<version>[1,2)</version>
 			<type>jar</type>
-			<scope>application</scope>
-		</dependency>
-		<dependency>
-			<groupId>net.stickycode</groupId>
-			<artifactId>sticky-stereotype</artifactId>
-			<version>[1,2)</version>
-			<type>jar</type>
-			<scope>application</scope>
+			<scope>provided</scope>
 		</dependency>
 	</dependencies>
 
