@@ -23,7 +23,7 @@
 
 	<groupId>net.stickycode.deploy.sample</groupId>
 	<artifactId>sticky-deployer-sample-babysteps</artifactId>
-	<version>1.2</version>
+	<version>1.3-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
 	<name>sticky-deployer-sample-babysteps</name>
@@ -38,9 +38,4 @@
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
-
-  <scm>
-    <connection>scm:svn:https://stickycode.googlecode.com/svn/tags/net.stickycode.deploy.sample/sticky-deployer-sample-babysteps-1.2</connection>
-    <developerConnection>scm:svn:https://stickycode.googlecode.com/svn/tags/net.stickycode.deploy.sample/sticky-deployer-sample-babysteps-1.2</developerConnection>
-  </scm>
 </project>
