@@ -12,14 +12,41 @@
  */
 package net.stickycode.deploy.bootstrap;
 
-@SuppressWarnings("serial")
-public class TheUncompressedSizeListedInJarIsGreaterThan2GbWhichSeemsWrong
-    extends RuntimeException {
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
+import java.net.URLConnection;
 
-  public TheUncompressedSizeListedInJarIsGreaterThan2GbWhichSeemsWrong(
-      String entryName, long compressedSize, long size) {
-    super(String.format("The size of %s was %s which seems too big. The compressed size is %s.",
-        entryName, size, compressedSize));
+
+public class StickyEmbeddedUrlConnection
+    extends URLConnection {
+
+  private String path;
+  private InputStream inputStream;
+
+  protected StickyEmbeddedUrlConnection(URL url, String path, InputStream i) {
+    super(url);
+    this.path = url.getPath();
+    this.inputStream = i;
+  }
+
+  @Override
+  public void connect() throws IOException {
+
+  }
+
+  @Override
+  public InputStream getInputStream() throws IOException {
+    return inputStream;
+  }
+
+  @Override
+  public String getContentType() {
+    String contentType = URLConnection.getFileNameMap().getContentTypeFor(path);
+    if (contentType != null)
+      return contentType;
+
+    return "text/plain";
   }
 
 }
