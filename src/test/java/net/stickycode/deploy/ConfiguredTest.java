@@ -22,7 +22,7 @@ public class ConfiguredTest {
   @Test
   public void sanity() {
     StickyCommandLine cli = new StickyCommandLine("--application=src/test/wars/sticky-helloworld-war-1.2-application.war");
-    DeploymentConfiguration configuration = new DeploymentConfiguration();
+    DeploymentConfiguration configuration = new FileDeploymentConfiguration();
     cli.configure(configuration);
   }
 }

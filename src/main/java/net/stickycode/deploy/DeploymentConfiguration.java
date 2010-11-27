@@ -14,46 +14,16 @@ package net.stickycode.deploy;
 
 import java.io.File;
 
-import net.stickycode.stereotype.Configured;
+public interface DeploymentConfiguration {
 
-public class DeploymentConfiguration {
+  String getDocumentBase();
 
-  @Configured
-  private File application;
+  File getWorkingDirectory();
 
-  @Configured
-  private Integer port = 8080;
+  String getContextPath();
 
-  @Configured
-  private String bindAddress = "localhost";
+  String getBindAddress();
 
-  @Configured
-  private String contextPath = "";
+  int getPort();
 
-  @Configured
-  private File workingDirectory = new File(System.getProperty("user.dir"));
-
-  public DeploymentConfiguration() {
-    super();
-  }
-
-  public File getApplication() {
-    return application;
-  }
-
-  public int getPort() {
-    return port;
-  }
-
-  public String getBindAddress() {
-    return bindAddress;
-  }
-
-  public String getContextPath() {
-    return contextPath;
-  }
-
-  public File getWorkingDirectory() {
-    return workingDirectory;
-  }
 }

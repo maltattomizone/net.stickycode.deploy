@@ -12,20 +12,22 @@
  */
 package net.stickycode.deploy;
 
-import org.apache.catalina.loader.WebappLoader;
+import java.io.File;
 
-import net.stickycode.deploy.cli.StickyCommandLine;
-import net.stickycode.deploy.tomcat.TomcatDeployer;
-import net.stickycode.deploy.tomcat.TomcatShutdownHandler;
+import net.stickycode.stereotype.Configured;
 
-public class Deploy {
+public class FileDeploymentConfiguration
+    extends EmbeddedDeploymentConfiguration {
 
-  public static void main(String[] args) throws InterruptedException {
-    StickyCommandLine cli = new StickyCommandLine(args);
-    FileDeploymentConfiguration configuration = new FileDeploymentConfiguration();
-    cli.configure(configuration);
-    final TomcatDeployer deployer = new TomcatDeployer(configuration, new WebappLoader());
-    cli.launch(deployer, new TomcatShutdownHandler(deployer));
+  @Configured
+  private File application;
+
+  public FileDeploymentConfiguration() {
+    super();
   }
 
+  @Override
+  public String getDocumentBase() {
+    return application.getAbsolutePath();
+  }
 }

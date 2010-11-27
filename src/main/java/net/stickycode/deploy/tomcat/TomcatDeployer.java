@@ -14,10 +14,10 @@ package net.stickycode.deploy.tomcat;
 
 import org.apache.catalina.Engine;
 import org.apache.catalina.LifecycleException;
+import org.apache.catalina.Loader;
 import org.apache.catalina.connector.Connector;
 import org.apache.catalina.core.StandardContext;
 import org.apache.catalina.core.StandardHost;
-import org.apache.catalina.loader.WebappLoader;
 import org.apache.catalina.startup.ContextConfig;
 import org.apache.catalina.startup.Embedded;
 
@@ -38,10 +38,12 @@ public class TomcatDeployer {
   private Engine engine;
   private StandardHost host;
 
+  private final Loader loader;
   private final DeploymentConfiguration configuration;
 
-  public TomcatDeployer(DeploymentConfiguration configuration) {
+  public TomcatDeployer(DeploymentConfiguration configuration, Loader loader) {
     super();
+    this.loader = loader;
     this.configuration = configuration;
   }
 
@@ -65,15 +67,23 @@ public class TomcatDeployer {
   }
 
   private void listenToHttpOnPort() {
-    Connector connector = container.createConnector(configuration.getBindAddress(), configuration.getPort(), "http");
-    container.addConnector(connector);
+//    Connector connector = container.createConnector(configuration.getBindAddress(), configuration.getPort(), "http");
+    try {
+      Connector connector = new Connector("http");
+      connector.setPort(configuration.getPort());
+      connector.setProperty("address", configuration.getBindAddress());
+      container.addConnector(connector);
+    }
+    catch (Exception e) {
+      throw new RuntimeException(e);
+    }
   }
 
   private void createContextForWar() {
     StandardContext context = new StandardContext();
-    context.setDocBase(configuration.getApplication().getAbsolutePath());
+    context.setDocBase(configuration.getDocumentBase());
     context.setPath(configuration.getContextPath());
-    context.setLoader(new WebappLoader());
+    context.setLoader(loader);
     context.setProcessTlds(false);
     context.setTldNamespaceAware(false);
     context.setAntiResourceLocking(false);

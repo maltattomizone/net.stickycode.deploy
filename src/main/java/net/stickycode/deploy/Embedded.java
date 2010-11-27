@@ -12,19 +12,27 @@
  */
 package net.stickycode.deploy;
 
-import org.apache.catalina.loader.WebappLoader;
-
 import net.stickycode.deploy.cli.StickyCommandLine;
 import net.stickycode.deploy.tomcat.TomcatDeployer;
 import net.stickycode.deploy.tomcat.TomcatShutdownHandler;
 
-public class Deploy {
 
-  public static void main(String[] args) throws InterruptedException {
+public class Embedded
+    implements Runnable {
+
+  private final String[] args;
+
+  public Embedded(String[] args) {
+    super();
+    this.args = args;
+  }
+
+  @Override
+  public void run() {
     StickyCommandLine cli = new StickyCommandLine(args);
-    FileDeploymentConfiguration configuration = new FileDeploymentConfiguration();
+    DeploymentConfiguration configuration = new EmbeddedDeploymentConfiguration();
     cli.configure(configuration);
-    final TomcatDeployer deployer = new TomcatDeployer(configuration, new WebappLoader());
+    final TomcatDeployer deployer = new TomcatDeployer(configuration, new EmbeddedWebappLoader());
     cli.launch(deployer, new TomcatShutdownHandler(deployer));
   }
 
