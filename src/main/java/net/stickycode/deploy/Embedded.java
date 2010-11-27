@@ -29,10 +29,12 @@ public class Embedded
 
   @Override
   public void run() {
+    System.out.println("Configuring Embedded Tomcat");
     StickyCommandLine cli = new StickyCommandLine(args);
     DeploymentConfiguration configuration = new EmbeddedDeploymentConfiguration();
     cli.configure(configuration);
     final TomcatDeployer deployer = new TomcatDeployer(configuration, new EmbeddedWebappLoader());
+    System.out.println("Starting Embedded Tomcat");
     cli.launch(deployer, new TomcatShutdownHandler(deployer));
   }
 

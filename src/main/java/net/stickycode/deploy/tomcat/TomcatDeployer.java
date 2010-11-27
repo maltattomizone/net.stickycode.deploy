@@ -69,7 +69,8 @@ public class TomcatDeployer {
   private void listenToHttpOnPort() {
 //    Connector connector = container.createConnector(configuration.getBindAddress(), configuration.getPort(), "http");
     try {
-      Connector connector = new Connector("http");
+      Connector connector = new Connector();
+      connector.setProtocol("HTTP/1.1");
       connector.setPort(configuration.getPort());
       connector.setProperty("address", configuration.getBindAddress());
       container.addConnector(connector);

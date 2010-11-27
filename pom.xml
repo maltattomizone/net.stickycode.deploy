@@ -58,6 +58,13 @@ monitoring, management and more</description>
 			<type>jar</type>
 			<scope>compile</scope>
 		</dependency>
+		<dependency>
+			<groupId>net.stickycode.deploy</groupId>
+			<artifactId>sticky-deployer-embedded</artifactId>
+			<version>[0,1)</version>
+			<type>jar</type>
+			<scope>test</scope>
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -81,6 +88,32 @@ monitoring, management and more</description>
 							<descriptors>
 								<descriptor>src/main/resources/application.xml</descriptor>
 							</descriptors>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
+						<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>copy</id>
+						<phase>package</phase>
+						<goals>
+							<goal>copy</goal>
+						</goals>
+						<configuration>
+							<stripVersion>true</stripVersion>
+							<artifactItems>
+								<artifactItem>
+									<groupId>net.stickycode.examples</groupId>
+									<artifactId>sticky-helloworld-war</artifactId>
+									<version>1.2</version>
+									<type>war</type>
+									<classifier>application</classifier>
+								</artifactItem>
+							</artifactItems>
 						</configuration>
 					</execution>
 				</executions>
