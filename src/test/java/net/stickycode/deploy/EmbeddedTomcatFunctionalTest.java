@@ -30,7 +30,8 @@ public class EmbeddedTomcatFunctionalTest {
       }
     };
     e.initialise();
-    e.launch();
+//    e.launch();
+
   }
 
 }

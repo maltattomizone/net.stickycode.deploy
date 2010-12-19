@@ -84,10 +84,12 @@ public class TomcatDeployer {
     StandardContext context = new StandardContext();
     context.setDocBase(configuration.getDocumentBase());
     context.setPath(configuration.getContextPath());
+    context.setResources(new EmbeddedResources());
     context.setLoader(loader);
     context.setProcessTlds(false);
     context.setTldNamespaceAware(false);
     context.setAntiResourceLocking(false);
+    context.setIgnoreAnnotations(true);
 
     ContextConfig listener = new ContextConfig();
     listener.setDefaultWebXml("META-INF/sticky/stripped-web.xml");
