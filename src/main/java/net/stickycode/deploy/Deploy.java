@@ -13,9 +13,12 @@
 package net.stickycode.deploy;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
 import java.lang.management.ManagementFactory;
+import java.util.Properties;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import sun.misc.Signal;
@@ -48,7 +51,7 @@ public class Deploy {
 
     public void handle(Signal s) {
       int count = stopping.incrementAndGet();
-      switch(count) {
+      switch (count) {
       case 1:
         System.out.println("Cleanly shutting down on " + s.getName());
         deployer.stop();
@@ -68,7 +71,7 @@ public class Deploy {
     File war = new File(args[0]);
     if (!war.canRead()) {
       System.err.println("War not found " + war.getAbsolutePath());
-      System.exit(1);
+      System.exit(78);
     }
     configuration.setWar(war);
     configuration.setPort(new Integer(args[1]));
@@ -79,9 +82,16 @@ public class Deploy {
     else
       configuration.setWorkingDirectory(new File("tomcat"));
 
+    if (args.length > 4)
+      validatePidPath(args);
+
+    if (args.length > 5)
+      loadSystemProperties(args[5]);
+
     final TomcatDeployer deployer = new TomcatDeployer(configuration);
 
     try {
+
       deployer.deploy();
 
       if (args.length > 4) {
@@ -90,9 +100,8 @@ public class Deploy {
     }
     catch (RuntimeException e) {
       e.printStackTrace();
-      System.exit(1);
+      System.exit(77);
     }
-
 
     System.out.println("CTRL-C to exit");
 
@@ -102,6 +111,38 @@ public class Deploy {
 
     synchronized (deployer) {
       deployer.wait();
+    }
+  }
+
+  private static void validatePidPath(String[] args) {
+    File pidFile = new File(args[4]);
+    if (pidFile.exists()) {
+      System.err.println("Pid already file exists '" + args[4] + "'");
+      System.exit(80);
+    }
+
+    if (!pidFile.getParentFile().canWrite()) {
+      System.err.println("Pid directory " + args[4] + " is not writable");
+      System.exit(80);
+    }
+  }
+
+  private static void loadSystemProperties(String path) {
+    File configuration = new File(path);
+    if (!configuration.canRead()) {
+      System.err.println("Cannot read " + path);
+      System.exit(79);
+    }
+
+    try {
+      InputStream i = new FileInputStream(path);
+      Properties p = new Properties(System.getProperties());
+      p.load(i);
+      i.close();
+      System.setProperties(p);
+    }
+    catch (IOException e) {
+      throw new RuntimeException(e);
     }
   }
 
