@@ -34,6 +34,7 @@ public class TomcatDeployer {
   private EmbeddedDeployer container;
   private Engine engine;
   private StandardHost host;
+  private StandardContext context;
 
   private final DeploymentConfiguration configuration;
 
@@ -56,7 +57,7 @@ public class TomcatDeployer {
       throw new FailedToStartDeploymentException(e);
     }
 
-    if (!container.isStarted())
+    if (!context.getAvailable())
       throw new FailedToStartDeploymentException();
   }
 
@@ -79,6 +80,7 @@ public class TomcatDeployer {
     context.addLifecycleListener(listener);
 
     host.addChild(context);
+    this.context = context;
   }
 
   private void createDefaultHost() {
