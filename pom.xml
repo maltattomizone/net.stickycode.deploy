@@ -13,7 +13,10 @@
 	See the Apache License Version 2.0 for the specific language governing permissions and limitations there under.
 
 -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project
+	xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<parent>
 		<groupId>net.stickycode.parent</groupId>
 		<artifactId>sticky-jar</artifactId>
@@ -67,6 +70,38 @@
 	<build>
 		<plugins>
 			<plugin>
+
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<version>2.2</version>
+				<executions>
+					<execution>
+						<id>copy-example-war</id>
+						<phase>process-test-resources</phase>
+						<goals>
+							<goal>copy</goal>
+						</goals>
+						<configuration>
+							<artifactItems>
+								<artifactItem>
+									<groupId>net.stickycode.examples</groupId>
+									<artifactId>sticky-helloworld-war</artifactId>
+									<version>1.2</version>
+									<type>war</type>
+									<classifier>application</classifier>
+									<overWrite>false</overWrite>
+								</artifactItem>
+							</artifactItems>
+							<outputDirectory>${project.build.directory}/</outputDirectory>
+							<overWriteReleases>false</overWriteReleases>
+							<overWriteSnapshots>true</overWriteSnapshots>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-assembly-plugin</artifactId>
 				<version>2.2</version>
 				<configuration>
