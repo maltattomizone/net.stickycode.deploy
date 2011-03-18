@@ -13,7 +13,10 @@
 	See the Apache License Version 2.0 for the specific language governing permissions and limitations there under.
 
 -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project
+	xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<parent>
 		<groupId>net.stickycode.parent</groupId>
 		<artifactId>sticky-jar</artifactId>
@@ -23,12 +26,12 @@
 
 	<groupId>net.stickycode.deploy</groupId>
 	<artifactId>sticky-deployer-tomcat6</artifactId>
-	<version>1.6-SNAPSHOT</version>
+	<version>1.7-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
 	<name>sticky-deployer-tomcat6-1</name>
 	<description>Class, Field and Method metadata used to remove boilerplate code for construction, configuration, scheduling,
-monitoring, management and more</description>
+		monitoring, management and more</description>
 
 	<inceptionYear>2010</inceptionYear>
 	<dependencies>
@@ -43,21 +46,39 @@ monitoring, management and more</description>
 		<dependency>
 			<groupId>org.apache.tomcat</groupId>
 			<artifactId>coyote</artifactId>
-			<version>6.0.32</version>
+			<version>[6.0.32]</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.tomcat</groupId>
+			<artifactId>jasper</artifactId>
+			<version>[6.0.32]</version>
 			<exclusions>
 				<exclusion>
-					<artifactId>annotations-api</artifactId>
-					<groupId>org.apache.tomcat</groupId>
+					<groupId>org.eclipse.jdt.core.compiler</groupId>
+					<artifactId>ecj</artifactId>
 				</exclusion>
 			</exclusions>
 		</dependency>
+		<dependency>
+			<groupId>org.eclipse.jdt.core.compiler</groupId>
+			<artifactId>ecj</artifactId>
+			<version>3.5.1</version>
+		</dependency>
 	</dependencies>
+
 
 	<build>
 		<plugins>
 			<plugin>
 				<artifactId>maven-assembly-plugin</artifactId>
 				<version>2.2</version>
+				<configuration>
+					<archive>
+						<manifest>
+							<mainClass>net.stickycode.deploy.Deploy</mainClass>
+						</manifest>
+					</archive>
+				</configuration>
 				<executions>
 					<execution>
 						<id>build-executable-minimal-jar</id>
@@ -66,13 +87,20 @@ monitoring, management and more</description>
 							<goal>single</goal>
 						</goals>
 						<configuration>
-							<archive>
-								<manifest>
-									<mainClass>net.stickycode.deploy.Deploy</mainClass>
-								</manifest>
-							</archive>
 							<descriptors>
-								<descriptor>src/main/resources/application.xml</descriptor>
+								<descriptor>src/main/assembly/minimal.xml</descriptor>
+							</descriptors>
+						</configuration>
+					</execution>
+					<execution>
+						<id>build-executable-jsp-jar</id>
+						<phase>package</phase>
+						<goals>
+							<goal>single</goal>
+						</goals>
+						<configuration>
+							<descriptors>
+								<descriptor>src/main/assembly/application.xml</descriptor>
 							</descriptors>
 						</configuration>
 					</execution>

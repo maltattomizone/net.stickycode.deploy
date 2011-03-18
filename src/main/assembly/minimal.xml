@@ -7,10 +7,23 @@
 		<format>jar</format>
 	</formats>
 	<includeBaseDirectory>false</includeBaseDirectory>
+
+	<files>
+		<file>
+			<source>src/main/assembly/stripped-web.xml</source>
+			<destName>stipped-web.xml</destName>
+			<outputDirectory>META-INF/sticky/</outputDirectory>
+		</file>
+	</files>
+
 	<dependencySets>
 		<dependencySet>
 			<excludes>
-				<exclude>**/MANIFEST.MF</exclude>
+				<exclude>org.apache.tomcat:annotations-api</exclude>
+				<exclude>org.apache.tomcat:jasper</exclude>
+				<exclude>org.apache.tomcat:jasper-el</exclude>
+				<exclude>org.apache.tomcat:jsp-api</exclude>
+				<exclude>org.eclipse.jdt.core.compiler:ecj</exclude>
 			</excludes>
 			<outputDirectory></outputDirectory>
 			<useProjectArtifact>true</useProjectArtifact>
