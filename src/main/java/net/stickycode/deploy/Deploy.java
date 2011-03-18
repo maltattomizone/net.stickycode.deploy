@@ -121,7 +121,8 @@ public class Deploy {
       System.exit(80);
     }
 
-    if (!pidFile.getParentFile().canWrite()) {
+    File parentFile = pidFile.getParentFile();
+    if (parentFile != null && !parentFile.canWrite()) {
       System.err.println("Pid directory " + args[4] + " is not writable");
       System.exit(80);
     }
