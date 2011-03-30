@@ -22,6 +22,7 @@
 				<exclude>org.apache.tomcat:annotations-api</exclude>
 				<exclude>org.apache.tomcat:jasper</exclude>
 				<exclude>org.apache.tomcat:jasper-el</exclude>
+				<exclude>org.apache.tomcat:el-api</exclude>
 				<exclude>org.apache.tomcat:jsp-api</exclude>
 				<exclude>org.eclipse.jdt.core.compiler:ecj</exclude>
 			</excludes>
