@@ -11,7 +11,7 @@
 	<files>
 		<file>
 			<source>src/main/assembly/stripped-web.xml</source>
-			<destName>stipped-web.xml</destName>
+			<destName>stripped-web.xml</destName>
 			<outputDirectory>META-INF/sticky/</outputDirectory>
 		</file>
 	</files>
