@@ -74,7 +74,7 @@
 				<executions>
 					<execution>
 						<id>copy-example-war</id>
-						<phase>process-test-resources</phase>
+						<phase>generate-test-resources</phase>
 						<goals>
 							<goal>copy</goal>
 						</goals>
