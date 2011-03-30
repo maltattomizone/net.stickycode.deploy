@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2010 RedEngine Ltd, http://www.redengine.co.nz. All rights reserved.
+ * Copyright (c) 2011 RedEngine Ltd, http://www.redengine.co.nz. All rights reserved.
  *
  * This program is licensed to you under the Apache License Version 2.0,
  * and you may not use this file except in compliance with the Apache License Version 2.0.
@@ -11,6 +11,13 @@
  * See the Apache License Version 2.0 for the specific language governing permissions and limitations there under.
  */
 package net.stickycode.deploy.tomcat;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.net.Socket;
+import java.net.UnknownHostException;
 
 import org.apache.catalina.Engine;
 import org.apache.catalina.LifecycleException;
@@ -59,6 +66,29 @@ public class TomcatDeployer {
 
     if (!context.getAvailable())
       throw new FailedToStartDeploymentException();
+
+    verifyListening();
+  }
+
+  private void verifyListening(){
+    try {
+      Socket s = new Socket(configuration.getBindAddress(), configuration.getPort());
+      PrintWriter w = new PrintWriter(s.getOutputStream());
+      w.print("OPTIONS * HTTP/1.1\r\nHOST: web\r\n\r\n");
+      w.flush();
+      BufferedReader r = new BufferedReader(new InputStreamReader(s.getInputStream(), "UTF-8"));
+      String pingResult = r.readLine();
+      s.close();
+      if (!"HTTP/1.1 200 OK".equals(pingResult))
+        throw new FailedToStartDeploymentException("Options test after start returned '" + pingResult + "'");
+
+    }
+    catch (UnknownHostException e) {
+      throw new FailedToStartDeploymentException(e);
+    }
+    catch (IOException e) {
+      throw new FailedToStartDeploymentException(e);
+    }
   }
 
   private void listenToHttpOnPort() {
@@ -87,7 +117,6 @@ public class TomcatDeployer {
     host = new StandardHost();
     host.setName("sticky-host");
     host.setUnpackWARs(false);
-    host.setName("sticky-host");
     engine.addChild(host);
     engine.setDefaultHost(host.getName());
   }
