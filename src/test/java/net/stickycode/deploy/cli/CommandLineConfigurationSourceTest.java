@@ -86,7 +86,7 @@ public class CommandLineConfigurationSourceTest {
     assertThat(source("runit").getCommands()).containsOnly("runit");
     assertThat(source("runit", "itrun").getCommands()).containsOnly("runit", "itrun");
 
-    source("ab$c", "ab_cd", "a$", "c_", "_d"); // although if you wrote code that this would work for well, you should go back to perl
+    source("ab$c", "ab_cd", "a$", "c_", "_d"); // although if you wrote code that this would work for, well, you should go back to perl
   }
 
   private CommandLineConfigurationSource source(String... args) {
