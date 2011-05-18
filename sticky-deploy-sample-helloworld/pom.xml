@@ -23,15 +23,10 @@
 
 	<groupId>net.stickycode.deploy.sample</groupId>
 	<artifactId>sticky-deployer-sample-helloworld</artifactId>
-	<version>1.3</version>
+	<version>1.4-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
 	<name>sticky-deployer-sample-helloworld</name>
 
 	<inceptionYear>2010</inceptionYear>
-
-  <scm>
-    <connection>scm:svn:https://stickycode.googlecode.com/svn/tags/net.stickycode.deploy.sample/sticky-deployer-sample-helloworld-1.3</connection>
-    <developerConnection>scm:svn:https://stickycode.googlecode.com/svn/tags/net.stickycode.deploy.sample/sticky-deployer-sample-helloworld-1.3</developerConnection>
-  </scm>
 </project>
