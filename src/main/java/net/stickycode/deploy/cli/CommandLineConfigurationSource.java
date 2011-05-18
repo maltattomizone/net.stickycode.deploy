@@ -33,7 +33,6 @@ public class CommandLineConfigurationSource
       else
         addCommand(s);
     }
-
   }
 
   private void addOption(String option) {
