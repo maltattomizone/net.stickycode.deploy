@@ -14,7 +14,7 @@ package net.stickycode.deploy.cli;
 
 import org.junit.Test;
 
-import net.stickycode.configured.ConfigurationValueNotFoundForKeyException;
+import net.stickycode.configured.MissingConfigurationException;
 import net.stickycode.stereotype.Configured;
 
 import static org.fest.assertions.Assertions.assertThat;
@@ -30,7 +30,7 @@ public class StickyCommandLineTest {
     Boolean doSomething = false;
   }
 
-  @Test(expected=ConfigurationValueNotFoundForKeyException.class)
+  @Test(expected=MissingConfigurationException.class)
   public void noConfiguration() {
     sample();
   }

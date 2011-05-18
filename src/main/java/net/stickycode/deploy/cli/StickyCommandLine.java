@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2010 RedEngine Ltd, http://www.redengine.co.nz. All rights reserved.
+ * Copyright (c) 2011 RedEngine Ltd, http://www.redengine.co.nz. All rights reserved.
  *
  * This program is licensed to you under the Apache License Version 2.0,
  * and you may not use this file except in compliance with the Apache License Version 2.0.
@@ -12,29 +12,46 @@
  */
 package net.stickycode.deploy.cli;
 
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
+
+import net.stickycode.coercion.Coercions;
+import net.stickycode.configured.ConfigurationRepository;
+import net.stickycode.configured.ConfigurationSource;
 import net.stickycode.configured.ConfigurationSystem;
-import net.stickycode.configured.FieldNameKeyGenerator;
+import net.stickycode.configured.ConfiguredConfiguration;
+import net.stickycode.configured.ConfiguredFieldProcessor;
+import net.stickycode.configured.FieldNameKeyBuilder;
+import net.stickycode.configured.InlineConfigurationRepository;
+import net.stickycode.configured.InvokingAnnotatedMethodProcessor;
 import net.stickycode.configured.source.EnvironmentConfigurationSource;
 import net.stickycode.configured.source.SystemPropertiesConfigurationSource;
 import net.stickycode.deploy.signal.StickyShutdownHandler;
 import net.stickycode.deploy.signal.StickySignalTrap;
 import net.stickycode.reflector.Reflector;
 
-
 public class StickyCommandLine {
 
-  private final ConfigurationSystem configuration = new ConfigurationSystem(new FieldNameKeyGenerator());
+  private final ConfigurationSystem configurationSystem;
+  private final ConfigurationRepository configurationRepository = new InlineConfigurationRepository();
 
   public StickyCommandLine(String... args) {
-    configuration.add(new CommandLineConfigurationSource(args));
-    configuration.add(new SystemPropertiesConfigurationSource());
-    configuration.add(new EnvironmentConfigurationSource());
+    this.configurationSystem = new BeanBuilder<ConfigurationSystem>(ConfigurationSystem.class)
+        .inject(new HashSet<ConfigurationSource>(Arrays.asList(
+            new CommandLineConfigurationSource(args),
+            new SystemPropertiesConfigurationSource(),
+            new EnvironmentConfigurationSource())))
+        .inject(new Coercions())
+        .inject(configurationRepository)
+        .inject(new FieldNameKeyBuilder())
+        .build();
   }
 
   public void launch(Object application, StickyShutdownHandler shutdownHandler) {
-    Reflector reflector = new Reflector();
-    reflector.forEachMethod(new MainMethodExecutingProcessor());
-    reflector.process(application);
+    new Reflector()
+        .forEachMethod(new InvokingAnnotatedMethodProcessor(Main.class))
+        .process(application);
 
     System.out.println("CTRL-C to exit");
 
@@ -55,10 +72,12 @@ public class StickyCommandLine {
   }
 
   public void configure(Object target) {
-    Reflector reflector = new Reflector();
-    reflector.forEachField(new OptionFieldProcessor(configuration));
-    reflector.process(target);
-    configuration.configure();
+    ConfiguredConfiguration configuration = new ConfiguredConfiguration(target);
+    new Reflector()
+        .forEachField(new ConfiguredFieldProcessor(configuration))
+        .process(target);
+    configurationRepository.register(configuration);
+    configurationSystem.configure();
   }
 
   public void execute(Object deployer) {

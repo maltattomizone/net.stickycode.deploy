@@ -35,31 +35,19 @@
 			<groupId>net.stickycode.composite</groupId>
 			<artifactId>sticky-composite-unittest</artifactId>
 			<version>[1,2)</version>
-			<type>jar</type>
 			<scope>test</scope>
 		</dependency>
-
 		<dependency>
-			<groupId>net.stickycode</groupId>
-			<artifactId>sticky-reflector</artifactId>
-			<version>[1,2)</version>
-			<type>jar</type>
-			<scope>compile</scope>
+			<groupId>net.stickycode.composite</groupId>
+			<artifactId>sticky-composite-logging-deploy</artifactId>
+			<version>[1.2,3)</version>
+			<scope>test</scope>
 		</dependency>
 
 		<dependency>
 			<groupId>net.stickycode.configured</groupId>
 			<artifactId>sticky-configured</artifactId>
-			<version>[1,2)</version>
-			<type>jar</type>
-			<scope>compile</scope>
-		</dependency>
-		<dependency>
-			<groupId>net.stickycode</groupId>
-			<artifactId>sticky-stereotype</artifactId>
-			<version>[1,2)</version>
-			<type>jar</type>
-			<scope>compile</scope>
+			<version>[2.3,3)</version>
 		</dependency>
 	</dependencies>
 </project>

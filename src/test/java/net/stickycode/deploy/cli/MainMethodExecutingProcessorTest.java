@@ -12,16 +12,17 @@
  */
 package net.stickycode.deploy.cli;
 
-import java.lang.reflect.Method;
-
 import org.junit.Test;
+
+import net.stickycode.configured.InvokingAnnotatedMethodProcessor;
+import net.stickycode.reflector.Reflector;
 
 import static org.fest.assertions.Assertions.assertThat;
 
-
 public class MainMethodExecutingProcessorTest {
 
-  class Application {
+  public class Application {
+
     boolean run = false;
 
     @Main
@@ -32,12 +33,11 @@ public class MainMethodExecutingProcessorTest {
 
   @Test
   public void runMain() throws SecurityException, NoSuchMethodException {
-    Method method = Application.class.getMethod("run", new Class<?>[0]);
-    MainMethodExecutingProcessor m = new MainMethodExecutingProcessor();
     Application a = new Application();
-    m.processMethod(a, method);
+    new Reflector()
+        .forEachMethod(new InvokingAnnotatedMethodProcessor(Main.class))
+        .process(a);
     assertThat(a.run).isTrue();
   }
-
 
 }
