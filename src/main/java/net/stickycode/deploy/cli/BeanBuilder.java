@@ -43,7 +43,6 @@ public class BeanBuilder<T> {
   }
 
   private Class<T> type;
-  private T instance;
   private Dependencies dependencies = new Dependencies();
 
   public BeanBuilder(Class<T> type) {

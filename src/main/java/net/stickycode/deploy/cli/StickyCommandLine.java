@@ -14,7 +14,6 @@ package net.stickycode.deploy.cli;
 
 import java.util.Arrays;
 import java.util.HashSet;
-import java.util.Set;
 
 import net.stickycode.coercion.Coercions;
 import net.stickycode.configured.ConfigurationRepository;
