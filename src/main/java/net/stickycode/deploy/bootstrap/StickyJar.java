@@ -13,11 +13,11 @@
 package net.stickycode.deploy.bootstrap;
 
 import java.io.IOException;
+import java.net.URL;
 import java.util.jar.JarEntry;
 import java.util.jar.JarInputStream;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
-import java.util.zip.ZipInputStream;
 
 
 public class StickyJar {
@@ -38,11 +38,22 @@ public class StickyJar {
 
   public StickyClass locate(String name) {
     try {
-      return safeLocate(name);
+      StickyClass klass = safeLocate(name);
+      loadInternal(name);
+      return klass;
     }
     catch (IOException e) {
       throw new RuntimeException(e);
     }
+  }
+
+  private void loadInternal(String name) {
+    URL url = getClass().getResource(jarPath);
+    if (url == null)
+      System.out.println(jarPath + " not found");
+
+ TODO finish this    
+//    JarInputStream i
   }
 
   private StickyClass safeLocate(String name) throws IOException {
