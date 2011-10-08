@@ -17,18 +17,16 @@
 	<parent>
 		<groupId>net.stickycode.parent</groupId>
 		<artifactId>sticky-jar</artifactId>
-		<version>1.9</version>
+		<version>1.18</version>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>net.stickycode.deploy</groupId>
-	<artifactId>sticky-deployer-tomcat6</artifactId>
-	<version>3.1-SNAPSHOT</version>
+	<artifactId>sticky-embedded-tomcat6</artifactId>
+	<version>0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
-	<name>sticky-deployer-tomcat6</name>
-	<description>Class, Field and Method metadata used to remove boilerplate code for construction, configuration, scheduling,
-monitoring, management and more</description>
+	<name>sticky-embedded-tomcat6</name>
 
 	<inceptionYear>2010</inceptionYear>
 	<dependencies>
