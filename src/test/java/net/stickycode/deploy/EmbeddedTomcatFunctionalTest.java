@@ -12,25 +12,31 @@
  */
 package net.stickycode.deploy;
 
+import static org.fest.assertions.Assertions.assertThat;
+
 import java.io.File;
 
 import org.junit.Test;
 
 import net.stickycode.deploy.bootstrap.StickyEmbedder;
 
-
 public class EmbeddedTomcatFunctionalTest {
 
   @Test
   public void helloWorld() {
+    assertThat(System.getProperty("buildDirectory"))
+        .describedAs("in eclipse set -DbuildDirectory=target-eclipse as a default VM argument for the JRE used to run tests")
+        .isNotNull();
     StickyEmbedder e = new StickyEmbedder("--debug") {
+
       @Override
       protected File deriveApplicationFile() {
-        return new File("target/dependency/sticky-helloworld-war-application.war");
+        return new File(System.getProperty("buildDirectory")
+            + "/dependency/sticky-helloworld-war-application.war");
       }
     };
     e.initialise();
-//    e.launch();
+    // e.launch();
 
   }
 
