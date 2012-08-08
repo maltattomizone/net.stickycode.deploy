@@ -19,7 +19,6 @@
 	<dependencySets>
 		<dependencySet>
 			<excludes>
-				<exclude>org.apache.tomcat:annotations-api</exclude>
 				<exclude>org.apache.tomcat:jasper</exclude>
 				<exclude>org.apache.tomcat:jasper-el</exclude>
 				<exclude>org.apache.tomcat:el-api</exclude>
