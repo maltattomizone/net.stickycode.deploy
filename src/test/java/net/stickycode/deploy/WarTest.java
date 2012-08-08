@@ -28,7 +28,7 @@ public class WarTest {
     configuration.setPort(9999);
     configuration
         .setWar(new File(
-            "target/sticky-helloworld-war-1.2-application.war"));
+            "target/sticky-helloworld-war-1.3-application.war"));
     TomcatDeployer deployer = new TomcatDeployer(configuration);
     deployer.deploy();
     deployer.stop();

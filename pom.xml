@@ -83,7 +83,7 @@
 								<artifactItem>
 									<groupId>net.stickycode.examples</groupId>
 									<artifactId>sticky-helloworld-war</artifactId>
-									<version>1.2</version>
+									<version>1.3</version>
 									<type>war</type>
 									<classifier>application</classifier>
 									<overWrite>false</overWrite>
