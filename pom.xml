@@ -23,7 +23,7 @@
 
 	<groupId>net.stickycode.deploy</groupId>
 	<artifactId>sticky-deployer-tomcat6</artifactId>
-	<version>1.13-SNAPSHOT</version>
+	<version>1.14-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
 	<name>sticky-deployer-tomcat6-1</name>
