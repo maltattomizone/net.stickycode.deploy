@@ -74,7 +74,7 @@ public class TomcatDeployer {
     try {
       Socket s = new Socket(configuration.getBindAddress(), configuration.getPort());
       PrintWriter w = new PrintWriter(s.getOutputStream());
-      w.print("OPTIONS * HTTP/1.1\r\nHOST: web\r\n\r\n");
+      w.print("OPTIONS / HTTP/1.1\r\nHOST: web\r\n\r\n");
       w.flush();
       BufferedReader r = new BufferedReader(new InputStreamReader(s.getInputStream(), "UTF-8"));
       String pingResult = r.readLine();
