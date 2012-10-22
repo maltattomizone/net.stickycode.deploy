@@ -67,6 +67,10 @@ public class Deploy {
   }
 
   public static void main(String[] args) throws InterruptedException {
+    System.out.println("Tomcat6 Deployer");
+    System.out.println("usage java -jar deployer.jar path/to/application.war port [bind address:0.0.0.0] [working directory:tomcat] [pid path] [system properties file]");
+    System.out.println("");
+    
     DeploymentConfiguration configuration = new DeploymentConfiguration();
     File war = new File(args[0]);
     if (!war.canRead()) {
@@ -77,6 +81,9 @@ public class Deploy {
     configuration.setPort(new Integer(args[1]));
     if (args.length > 2)
       configuration.setBindAddress(args[2]);
+    else
+      configuration.setBindAddress("0.0.0.0");
+    
     if (args.length > 3)
       configuration.setWorkingDirectory(new File(args[3]));
     else
