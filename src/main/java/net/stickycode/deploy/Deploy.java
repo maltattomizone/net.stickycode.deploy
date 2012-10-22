@@ -67,6 +67,9 @@ public class Deploy {
   }
 
   public static void main(String[] args) throws InterruptedException {
+    System.out.println("Tomcat7 Deployer");
+    System.out.println("usage java -jar deployer.jar path/to/application.war port [bind address:0.0.0.0] [working directory:tomcat] [pid path] [system properties file]");
+    System.out.println("");
     DeploymentConfiguration configuration = new DeploymentConfiguration();
     File war = new File(args[0]);
     if (!war.canRead()) {

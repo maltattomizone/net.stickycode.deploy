@@ -30,17 +30,29 @@ import org.apache.catalina.startup.Embedded;
 
 public class TomcatDeployer {
 
-
   public class EmbeddedDeployer
       extends Embedded {
+
+    boolean started = false;
+
     public boolean isStarted() {
       return started;
+    }
+
+    @Override
+    protected void startInternal()
+        throws LifecycleException {
+      super.startInternal();
+      started = true;
     }
   }
 
   private EmbeddedDeployer container;
+
   private Engine engine;
+
   private StandardHost host;
+
   private StandardContext context;
 
   private final DeploymentConfiguration configuration;
@@ -67,10 +79,10 @@ public class TomcatDeployer {
     if (!context.getAvailable())
       throw new FailedToStartDeploymentException();
 
-    verifyListening();
+//    verifyListening();
   }
 
-  private void verifyListening(){
+  private void verifyListening() {
     try {
       Socket s = new Socket(configuration.getBindAddress(), configuration.getPort());
       PrintWriter w = new PrintWriter(s.getOutputStream());
@@ -124,6 +136,7 @@ public class TomcatDeployer {
   private void createEngine() {
     engine = container.createEngine();
     engine.setName("sticky-" + System.currentTimeMillis());
+    engine.setService(container);
     container.addEngine(engine);
   }
 
