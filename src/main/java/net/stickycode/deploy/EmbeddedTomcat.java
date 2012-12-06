@@ -16,18 +16,9 @@ import net.stickycode.deploy.signal.StickySignalTrap;
 import net.stickycode.deploy.tomcat.TomcatDeployer;
 import net.stickycode.deploy.tomcat.TomcatShutdownHandler;
 
-public class Embedded
-    implements Runnable {
+public class EmbeddedTomcat {
 
-  private final String[] args;
-
-  public Embedded(String[] args) {
-    super();
-    this.args = args;
-  }
-
-  @Override
-  public void run() {
+  public static void main(String[] args) {
     System.out.println("Configuring Embedded Tomcat");
     DeploymentConfiguration configuration = new EmbeddedDeploymentConfiguration();
     final TomcatDeployer deployer = new TomcatDeployer(configuration, new EmbeddedWebappLoader());
@@ -35,7 +26,7 @@ public class Embedded
     launch(deployer, new TomcatShutdownHandler(deployer));
   }
 
-  private void launch(TomcatDeployer deployer, TomcatShutdownHandler tomcatShutdownHandler) {
+   private static void launch(TomcatDeployer deployer, TomcatShutdownHandler tomcatShutdownHandler) {
     System.out.println("CTRL-C to exit");
 
     deployer.deploy();
@@ -46,7 +37,7 @@ public class Embedded
     trap.waitForExit();
   }
 
-  public StickySignalTrap signalTrap() {
+  public static StickySignalTrap signalTrap() {
     return new StickySignalTrap();
   }
 

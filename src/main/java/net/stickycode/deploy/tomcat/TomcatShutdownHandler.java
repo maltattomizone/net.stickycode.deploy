@@ -12,7 +12,6 @@
  */
 package net.stickycode.deploy.tomcat;
 
-
 import net.stickycode.deploy.signal.AbstractStickyShutdownHandler;
 
 
