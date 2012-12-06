@@ -12,10 +12,9 @@
  */
 package net.stickycode.deploy;
 
-import net.stickycode.deploy.cli.StickyCommandLine;
+import net.stickycode.deploy.signal.StickySignalTrap;
 import net.stickycode.deploy.tomcat.TomcatDeployer;
 import net.stickycode.deploy.tomcat.TomcatShutdownHandler;
-
 
 public class Embedded
     implements Runnable {
@@ -30,12 +29,25 @@ public class Embedded
   @Override
   public void run() {
     System.out.println("Configuring Embedded Tomcat");
-    StickyCommandLine cli = new StickyCommandLine(args);
     DeploymentConfiguration configuration = new EmbeddedDeploymentConfiguration();
-    cli.configure(configuration);
     final TomcatDeployer deployer = new TomcatDeployer(configuration, new EmbeddedWebappLoader());
     System.out.println("Starting Embedded Tomcat");
-    cli.launch(deployer, new TomcatShutdownHandler(deployer));
+    launch(deployer, new TomcatShutdownHandler(deployer));
+  }
+
+  private void launch(TomcatDeployer deployer, TomcatShutdownHandler tomcatShutdownHandler) {
+    System.out.println("CTRL-C to exit");
+
+    deployer.deploy();
+
+    StickySignalTrap trap = signalTrap();
+    trap.shutdown(tomcatShutdownHandler);
+    trap.noHangup();
+    trap.waitForExit();
+  }
+
+  public StickySignalTrap signalTrap() {
+    return new StickySignalTrap();
   }
 
 }

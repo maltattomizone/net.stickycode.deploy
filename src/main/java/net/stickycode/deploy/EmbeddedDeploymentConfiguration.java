@@ -14,21 +14,15 @@ package net.stickycode.deploy;
 
 import java.io.File;
 
-import net.stickycode.stereotype.Configured;
-
 public class EmbeddedDeploymentConfiguration
     implements DeploymentConfiguration {
 
-  @Configured
   private Integer port = 8080;
 
-  @Configured
   private String bindAddress = "localhost";
 
-  @Configured
   private String contextPath = "";
 
-  @Configured
   private File workingDirectory = new File(System.getProperty("user.dir"));
 
   public EmbeddedDeploymentConfiguration() {

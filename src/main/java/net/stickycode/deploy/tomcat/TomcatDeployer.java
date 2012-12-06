@@ -12,6 +12,8 @@
  */
 package net.stickycode.deploy.tomcat;
 
+import net.stickycode.deploy.DeploymentConfiguration;
+
 import org.apache.catalina.Engine;
 import org.apache.catalina.LifecycleException;
 import org.apache.catalina.Loader;
@@ -20,9 +22,6 @@ import org.apache.catalina.core.StandardContext;
 import org.apache.catalina.core.StandardHost;
 import org.apache.catalina.startup.ContextConfig;
 import org.apache.catalina.startup.Embedded;
-
-import net.stickycode.deploy.DeploymentConfiguration;
-import net.stickycode.deploy.cli.Main;
 
 public class TomcatDeployer {
 
@@ -47,7 +46,6 @@ public class TomcatDeployer {
     this.configuration = configuration;
   }
 
-  @Main
   public void deploy() {
     createContainer();
     createEngine();
