@@ -55,6 +55,15 @@
 					</archive>
 				</configuration>
 			</plugin>
+			<plugin>
+				<groupId>net.stickycode.plugins</groupId>
+				<artifactId>bootstrap-maven-plugin</artifactId>
+				<version>1.5</version>
+				<configuration>
+					<embedderVersion>0.6</embedderVersion>
+				</configuration>
+			</plugin>
 		</plugins>
+
 	</build>
 </project>
