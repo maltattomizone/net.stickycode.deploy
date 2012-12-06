@@ -12,7 +12,6 @@
  */
 package net.stickycode.deploy.tomcat;
 
-import net.stickycode.deploy.DeploymentConfiguration;
 
 import org.apache.catalina.Engine;
 import org.apache.catalina.LifecycleException;

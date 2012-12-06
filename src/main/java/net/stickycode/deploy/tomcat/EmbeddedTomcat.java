@@ -10,11 +10,9 @@
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the Apache License Version 2.0 for the specific language governing permissions and limitations there under.
  */
-package net.stickycode.deploy;
+package net.stickycode.deploy.tomcat;
 
 import net.stickycode.deploy.signal.StickySignalTrap;
-import net.stickycode.deploy.tomcat.TomcatDeployer;
-import net.stickycode.deploy.tomcat.TomcatShutdownHandler;
 
 public class EmbeddedTomcat {
 

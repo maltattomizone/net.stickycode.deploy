@@ -10,48 +10,20 @@
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the Apache License Version 2.0 for the specific language governing permissions and limitations there under.
  */
-package net.stickycode.deploy;
+package net.stickycode.deploy.tomcat;
 
 import java.io.File;
 
-public class EmbeddedDeploymentConfiguration
-    implements DeploymentConfiguration {
+public interface DeploymentConfiguration {
 
-  private Integer port = 8080;
+  String getDocumentBase();
 
-  private String bindAddress = "localhost";
+  File getWorkingDirectory();
 
-  private String contextPath = "";
+  String getContextPath();
 
-  private File workingDirectory = new File(System.getProperty("user.dir"));
+  String getBindAddress();
 
-  public EmbeddedDeploymentConfiguration() {
-    super();
-  }
-
-  @Override
-  public int getPort() {
-    return port;
-  }
-
-  @Override
-  public String getBindAddress() {
-    return bindAddress;
-  }
-
-  @Override
-  public String getContextPath() {
-    return contextPath;
-  }
-
-  @Override
-  public File getWorkingDirectory() {
-    return workingDirectory;
-  }
-
-  @Override
-  public String getDocumentBase() {
-    return "embedded";
-  }
+  int getPort();
 
 }
