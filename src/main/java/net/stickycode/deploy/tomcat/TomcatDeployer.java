@@ -12,6 +12,12 @@
  */
 package net.stickycode.deploy.tomcat;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.net.Socket;
+import java.net.UnknownHostException;
 
 import org.apache.catalina.Engine;
 import org.apache.catalina.LifecycleException;
@@ -24,19 +30,31 @@ import org.apache.catalina.startup.Embedded;
 
 public class TomcatDeployer {
 
-
   public class EmbeddedDeployer
       extends Embedded {
+
+    boolean started = false;
+
     public boolean isStarted() {
       return started;
+    }
+
+    @Override
+    protected void startInternal()
+        throws LifecycleException {
+      super.startInternal();
+      started = true;
     }
   }
 
   private EmbeddedDeployer container;
+
   private Engine engine;
+
   private StandardHost host;
 
   private final Loader loader;
+
   private final DeploymentConfiguration configuration;
 
   public TomcatDeployer(DeploymentConfiguration configuration, Loader loader) {
@@ -61,20 +79,34 @@ public class TomcatDeployer {
 
     if (!container.isStarted())
       throw new FailedToStartDeploymentException();
+
+    verifyListening();
+  }
+
+  private void verifyListening() {
+    try {
+      Socket s = new Socket(configuration.getBindAddress(), configuration.getPort());
+      PrintWriter w = new PrintWriter(s.getOutputStream());
+      w.print("OPTIONS * HTTP/1.1\r\nHOST: web\r\n\r\n");
+      w.flush();
+      BufferedReader r = new BufferedReader(new InputStreamReader(s.getInputStream(), "UTF-8"));
+      String pingResult = r.readLine();
+      s.close();
+      if (!"HTTP/1.1 200 OK".equals(pingResult))
+        throw new FailedToStartDeploymentException("Options test after start returned '" + pingResult + "'");
+
+    }
+    catch (UnknownHostException e) {
+      throw new FailedToStartDeploymentException(e);
+    }
+    catch (IOException e) {
+      throw new FailedToStartDeploymentException(e);
+    }
   }
 
   private void listenToHttpOnPort() {
-//    Connector connector = container.createConnector(configuration.getBindAddress(), configuration.getPort(), "http");
-    try {
-      Connector connector = new Connector();
-      connector.setProtocol("HTTP/1.1");
-      connector.setPort(configuration.getPort());
-      connector.setProperty("address", configuration.getBindAddress());
-      container.addConnector(connector);
-    }
-    catch (Exception e) {
-      throw new RuntimeException(e);
-    }
+    Connector connector = container.createConnector(configuration.getBindAddress(), configuration.getPort(), "http");
+    container.addConnector(connector);
   }
 
   private void createContextForWar() {
@@ -86,7 +118,6 @@ public class TomcatDeployer {
     context.setProcessTlds(false);
     context.setTldNamespaceAware(false);
     context.setAntiResourceLocking(false);
-    context.setIgnoreAnnotations(true);
 
     ContextConfig listener = new ContextConfig();
     listener.setDefaultWebXml("META-INF/sticky/stripped-web.xml");
@@ -99,7 +130,7 @@ public class TomcatDeployer {
     host = new StandardHost();
     host.setName("sticky-host");
     host.setUnpackWARs(false);
-    host.setName("sticky-host");
+    host.setCreateDirs(false);
     engine.addChild(host);
     engine.setDefaultHost(host.getName());
   }
@@ -107,6 +138,7 @@ public class TomcatDeployer {
   private void createEngine() {
     engine = container.createEngine();
     engine.setName("sticky-" + System.currentTimeMillis());
+    engine.setService(container);
     container.addEngine(engine);
   }
 

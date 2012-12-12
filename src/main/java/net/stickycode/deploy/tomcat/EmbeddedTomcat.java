@@ -17,17 +17,18 @@ import net.stickycode.deploy.signal.StickySignalTrap;
 public class EmbeddedTomcat {
 
   public static void main(String[] args) {
-    System.out.println("Configuring Embedded Tomcat");
+    System.out.println("Configuring Embedded Tomcat ");
     DeploymentConfiguration configuration = new EmbeddedDeploymentConfiguration();
     final TomcatDeployer deployer = new TomcatDeployer(configuration, new EmbeddedWebappLoader());
     System.out.println("Starting Embedded Tomcat");
     launch(deployer, new TomcatShutdownHandler(deployer));
   }
 
-   private static void launch(TomcatDeployer deployer, TomcatShutdownHandler tomcatShutdownHandler) {
-    System.out.println("CTRL-C to exit");
-
+  private static void launch(TomcatDeployer deployer, TomcatShutdownHandler tomcatShutdownHandler) {
+    long time = System.currentTimeMillis();
     deployer.deploy();
+    System.out.println("started in " + (System.currentTimeMillis() - time) + "ms");
+    System.out.println("CTRL-C to exit");
 
     StickySignalTrap trap = signalTrap();
     trap.shutdown(tomcatShutdownHandler);
