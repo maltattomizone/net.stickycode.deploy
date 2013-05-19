@@ -79,7 +79,7 @@ public class TomcatDeployer {
     if (!context.getAvailable())
       throw new FailedToStartDeploymentException();
 
-//    verifyListening();
+    verifyListening();
   }
 
   private void verifyListening() {
@@ -127,7 +127,7 @@ public class TomcatDeployer {
 
   private void createDefaultHost() {
     host = new StandardHost();
-    host.setName("sticky-host");
+    host.setName("t7");
     host.setUnpackWARs(false);
     engine.addChild(host);
     engine.setDefaultHost(host.getName());
@@ -135,7 +135,7 @@ public class TomcatDeployer {
 
   private void createEngine() {
     engine = container.createEngine();
-    engine.setName("sticky-" + System.currentTimeMillis());
+    engine.setName("t7-" + System.currentTimeMillis());
     engine.setService(container);
     container.addEngine(engine);
   }
@@ -151,7 +151,7 @@ public class TomcatDeployer {
 
   private void createContainer() {
     container = new EmbeddedDeployer();
-    container.setName("sticky-container");
+    container.setName("t7-container");
     container.setUseNaming(true);
     container.setCatalinaHome(configuration.getWorkingDirectory().getAbsolutePath());
     container.setCatalinaBase(configuration.getWorkingDirectory().getAbsolutePath());
